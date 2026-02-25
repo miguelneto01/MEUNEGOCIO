@@ -39,7 +39,6 @@
             background: linear-gradient(145deg, #eef2f6 0%, #ffffff 100%);
             min-height: 100vh;
         }
-        /* Uppercase apenas para títulos e labels */
         h1, h2, h3, h4, h5, h6, .nav-link, .btn, .card-title, label, th, .navbar-brand, .footer {
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -259,6 +258,19 @@
             justify-content: space-between;
             border-left: 6px solid var(--primary);
             box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        /* Ajustes para mobile */
+        @media (max-width: 768px) {
+            .nav-tabs .nav-link {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            .empresa-header {
+                padding: 20px;
+            }
+            .empresa-header .col-md-3 {
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -641,7 +653,7 @@
         </footer>
     </div>
 
-    <!-- MODAIS -->
+    <!-- MODAIS (mantidos iguais) -->
     <div class="modal fade" id="modalCliente" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content rounded-4">
@@ -1815,35 +1827,126 @@
             showMessage('Excel gerado.', 'success');
         };
 
+        // ==================== FECHAR MÊS (GERAR PDF COMPLETO) ====================
         window.fecharMes = async function() {
-            // Gerar relatório consolidado do mês
             const inicio = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
             const fim = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59);
-            
-            let html = '<h5>FECHAMENTO DO MÊS</h5>';
-            
-            // Vendas
+            const mesAno = inicio.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+
+            // Buscar dados
             const vendasSnap = await db.collection('vendas').where('data', '>=', inicio).where('data', '<=', fim).get();
-            let totalVendas = 0;
-            vendasSnap.forEach(doc => totalVendas += doc.data().total);
-            html += `<p><strong>Total de vendas:</strong> R$ ${formatarMoeda(totalVendas)}</p>`;
-            
-            // Gastos
             const gastosSnap = await db.collection('gastos').where('data', '>=', inicio).where('data', '<=', fim).get();
+            const creditosSnap = await db.collection('credito').get(); // todos, mas podemos filtrar os do mês? Vamos considerar pendentes totais
+
+            // Totais
+            let totalVendas = 0, totalCusto = 0;
+            let vendasPorDia = {};
+            let produtosVendidos = {};
+            let vendasDetalhe = [];
+
+            for (let doc of vendasSnap.docs) {
+                const v = doc.data();
+                totalVendas += v.total;
+                const dia = v.data.toDate().toLocaleDateString();
+                vendasPorDia[dia] = (vendasPorDia[dia] || 0) + v.total;
+                vendasDetalhe.push(v);
+                for (let item of v.itens) {
+                    produtosVendidos[item.nome] = (produtosVendidos[item.nome] || 0) + item.quantidade;
+                    // Calcular custo aproximado (usar último custo do produto)
+                    const prodDoc = await db.collection('produtos').doc(item.id).get();
+                    if (prodDoc.exists) {
+                        totalCusto += prodDoc.data().custo * item.quantidade;
+                    }
+                }
+            }
+
             let totalGastos = 0;
-            gastosSnap.forEach(doc => totalGastos += doc.data().valor);
-            html += `<p><strong>Total de gastos:</strong> R$ ${formatarMoeda(totalGastos)}</p>`;
-            
-            // Créditos pendentes
-            const creditosSnap = await db.collection('credito').where('saldo', '>', 0).get();
-            let totalCredito = 0;
-            creditosSnap.forEach(doc => totalCredito += doc.data().saldo);
-            html += `<p><strong>Créditos a receber:</strong> R$ ${formatarMoeda(totalCredito)}</p>`;
-            
-            html += '<hr><p>Mês fechado com sucesso!</p>';
-            
-            document.getElementById('relatorioResultado').innerHTML = html;
-            showMessage('Mês fechado. Relatório gerado.', 'success');
+            let gastosDetalhe = [];
+            gastosSnap.forEach(doc => {
+                const g = doc.data();
+                totalGastos += g.valor;
+                gastosDetalhe.push(g);
+            });
+
+            let totalCreditoPendente = 0;
+            creditosSnap.forEach(doc => {
+                if (doc.data().saldo > 0) totalCreditoPendente += doc.data().saldo;
+            });
+
+            const lucro = totalVendas - totalCusto - totalGastos;
+
+            // Gerar PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            let y = 10;
+
+            doc.setFontSize(18);
+            doc.text('FECHAMENTO DO MÊS', 10, y);
+            y += 10;
+            doc.setFontSize(12);
+            doc.text(`Período: ${mesAno}`, 10, y);
+            y += 10;
+            doc.text(`Total de Vendas: R$ ${formatarMoeda(totalVendas)}`, 10, y);
+            y += 7;
+            doc.text(`Total de Gastos: R$ ${formatarMoeda(totalGastos)}`, 10, y);
+            y += 7;
+            doc.text(`Custo dos Produtos Vendidos: R$ ${formatarMoeda(totalCusto)}`, 10, y);
+            y += 7;
+            doc.text(`Lucro Bruto: R$ ${formatarMoeda(lucro)}`, 10, y);
+            y += 7;
+            doc.text(`Créditos a Receber: R$ ${formatarMoeda(totalCreditoPendente)}`, 10, y);
+            y += 15;
+
+            // Tabela de vendas por dia
+            if (Object.keys(vendasPorDia).length > 0) {
+                doc.text('Vendas por Dia:', 10, y);
+                y += 5;
+                const dadosDia = Object.entries(vendasPorDia).map(([dia, valor]) => [dia, `R$ ${formatarMoeda(valor)}`]);
+                doc.autoTable({
+                    startY: y,
+                    head: [['Dia', 'Total']],
+                    body: dadosDia,
+                });
+                y = doc.lastAutoTable.finalY + 10;
+            }
+
+            // Ranking de produtos
+            if (Object.keys(produtosVendidos).length > 0) {
+                doc.text('Produtos Mais Vendidos:', 10, y);
+                y += 5;
+                const ranking = Object.entries(produtosVendidos).sort((a,b) => b[1] - a[1]).slice(0,10);
+                const dadosRanking = ranking.map(([prod, qtd]) => [prod, qtd]);
+                doc.autoTable({
+                    startY: y,
+                    head: [['Produto', 'Quantidade']],
+                    body: dadosRanking,
+                });
+                y = doc.lastAutoTable.finalY + 10;
+            }
+
+            // Gastos
+            if (gastosDetalhe.length > 0) {
+                doc.text('Gastos do Mês:', 10, y);
+                y += 5;
+                const dadosGastos = gastosDetalhe.map(g => [g.descricao, g.tipo === 'entrada' ? 'Entrada' : 'Saída', `R$ ${formatarMoeda(g.valor)}`]);
+                doc.autoTable({
+                    startY: y,
+                    head: [['Descrição', 'Tipo', 'Valor']],
+                    body: dadosGastos,
+                });
+                y = doc.lastAutoTable.finalY + 10;
+            }
+
+            doc.save(`fechamento_${mesAno.replace(/ /g,'_')}.pdf`);
+            showMessage('PDF de fechamento gerado!', 'success');
+
+            // Opcional: limpar dados antigos (ex: vendas com mais de 60 dias) - descomente se quiser
+            // const dataLimite = new Date();
+            // dataLimite.setDate(dataLimite.getDate() - 60);
+            // const vendasAntigas = await db.collection('vendas').where('data', '<', dataLimite).get();
+            // const batch = db.batch();
+            // vendasAntigas.forEach(doc => batch.delete(doc.ref));
+            // await batch.commit();
         };
 
         // ==================== ADMIN: USUÁRIOS ====================
