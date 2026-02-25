@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Google Fonts - Poppins moderna -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- jsPDF e autoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
@@ -22,174 +20,156 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         :root {
-            --primary-blue: #1e3a8a;
-            --soft-blue: #dbeafe;
-            --dark-gray: #1f2937;
-            --light-gray: #f9fafb;
-            --accent-orange: #f59e0b;
-            --toast-success: #10b981;
-            --toast-error: #ef4444;
-            --toast-warning: #f59e0b;
-            --toast-info: #3b82f6;
+            --primary: #1e3a8a;
+            --primary-light: #3b5ba5;
+            --primary-soft: #dbeafe;
+            --secondary: #0f172a;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --glass: rgba(255,255,255,0.25);
+            --glass-border: rgba(255,255,255,0.18);
         }
         * {
             font-family: 'Poppins', sans-serif;
         }
-        body, .modal, .card, .navbar, .footer, .btn, th, td, label, h1, h2, h3, h4, h5, h6, span, div {
-            text-transform: uppercase;
+        body {
+            background: linear-gradient(145deg, #eef2f6 0%, #ffffff 100%);
+            min-height: 100vh;
         }
-        input, textarea, select, .form-control, .form-select {
+        /* Uppercase apenas para títulos e labels */
+        h1, h2, h3, h4, h5, h6, .nav-link, .btn, .card-title, label, th, .navbar-brand, .footer {
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input, textarea, select, .form-control, .form-select, td {
             text-transform: none !important;
         }
-        body {
-            background-color: var(--light-gray);
-        }
         .navbar {
-            background: linear-gradient(135deg, var(--primary-blue), #2563eb) !important;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, var(--primary), #2563eb) !important;
+            box-shadow: 0 15px 30px -10px rgba(30,58,138,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: -0.5px;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .card {
-            border-radius: 24px;
-            border: none;
-            box-shadow: 0 20px 35px -8px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.02);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255,255,255,0.9);
+        .glass-card {
+            background: rgba(255,255,255,0.7);
             backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .btn-success {
-            background: linear-gradient(135deg, var(--primary-blue), #2563eb);
-            border: none;
-            box-shadow: 0 4px 6px -2px rgba(30,58,138,0.3);
+        .glass-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(30,58,138,0.25);
         }
-        .btn-primary {
-            background: linear-gradient(135deg, #2563eb, var(--primary-blue));
+        .btn-modern {
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-weight: 500;
             border: none;
-            box-shadow: 0 4px 6px -2px rgba(37,99,235,0.3);
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+            box-shadow: 0 8px 15px -5px rgba(30,58,138,0.4);
+            transition: all 0.2s;
         }
-        .btn-warning {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            border: none;
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -5px rgba(30,58,138,0.5);
+        }
+        .btn-outline-modern {
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-weight: 500;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            transition: all 0.2s;
+        }
+        .btn-outline-modern:hover {
+            background: var(--primary);
             color: white;
         }
         .nav-tabs .nav-link {
             border: none;
-            color: var(--dark-gray);
+            color: var(--dark);
             font-weight: 500;
             padding: 12px 24px;
-            border-radius: 100px;
+            border-radius: 50px;
             margin-right: 8px;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(5px);
             transition: all 0.2s;
         }
         .nav-tabs .nav-link.active {
-            background: linear-gradient(135deg, var(--soft-blue), #bfdbfe);
-            color: var(--dark-gray);
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(30,58,138,0.1);
+            background: linear-gradient(135deg, var(--primary), #2563eb);
+            color: white;
+            box-shadow: 0 10px 20px -8px var(--primary);
+        }
+        .table {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
         }
         .table thead {
-            background: linear-gradient(135deg, var(--primary-blue), #2563eb);
+            background: linear-gradient(135deg, var(--primary), #2563eb);
             color: white;
-            border-radius: 16px 16px 0 0;
         }
         .table thead th {
             border: none;
-            padding: 16px;
+            padding: 15px;
+            font-weight: 500;
         }
         .table tbody tr {
+            background: white;
             transition: background 0.2s;
         }
         .table tbody tr:hover {
-            background: var(--soft-blue);
-        }
-        .footer {
-            background: var(--dark-gray);
-            color: white;
-            padding: 20px 0;
-            margin-top: 50px;
+            background: var(--primary-soft);
         }
         .stat-card {
             background: white;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 20px 35px -8px rgba(0,0,0,0.05);
-            border-left: 6px solid var(--primary-blue);
-            transition: all 0.3s;
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--primary);
+            transition: all 0.2s;
         }
-        .search-box {
-            border-radius: 100px;
-            border: 1px solid #e5e7eb;
-            padding: 12px 20px;
-            font-size: 0.95rem;
+        .stat-card:hover {
+            transform: translateY(-5px);
         }
-        .produto-lista {
-            max-height: 240px;
-            overflow-y: auto;
-            border-radius: 20px;
-            background: #f9fafb;
-            padding: 12px;
-        }
-        .produto-item {
-            cursor: pointer;
-            padding: 12px 16px;
-            border-radius: 16px;
-            transition: background 0.2s;
-            margin-bottom: 4px;
-        }
-        .produto-item:hover {
-            background: var(--soft-blue);
-        }
-        .item-venda {
-            background: white;
-            border-radius: 20px;
-            padding: 16px;
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-left: 6px solid #2563eb;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
-        }
-        .chart-container {
-            position: relative;
-            height: 280px;
-            width: 100%;
+        .footer {
+            background: linear-gradient(135deg, var(--secondary), #0f172a);
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+            border-radius: 40px 40px 0 0;
         }
         .empresa-header {
-            background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 100%);
-            border-radius: 30px;
-            padding: 30px 35px;
-            margin-bottom: 30px;
+            background: white;
+            border-radius: 40px;
+            padding: 30px 40px;
             box-shadow: 0 25px 40px -15px rgba(30,58,138,0.2);
-        }
-        .empresa-header .col-md-3 {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
-            color: #2d3748;
-            padding: 10px 0;
+            border: 1px solid rgba(255,255,255,0.5);
         }
         .empresa-header i {
-            font-size: 1.8rem;
-            background: white;
+            background: var(--primary-soft);
             padding: 12px;
             border-radius: 50%;
-            box-shadow: 0 10px 15px -5px rgba(0,0,0,0.1);
             width: 50px;
             height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .empresa-header a {
-            color: #2d3748;
-            font-weight: 500;
-            text-decoration: none;
+            color: var(--primary);
         }
         .login-container {
             max-width: 420px;
@@ -198,57 +178,29 @@
         .badge-quitado {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            padding: 6px 12px;
-            border-radius: 100px;
+            padding: 6px 16px;
+            border-radius: 50px;
         }
         .badge-pendente {
             background: linear-gradient(135deg, #f59e0b, #d97706);
             color: white;
-            padding: 6px 12px;
-            border-radius: 100px;
-        }
-        .glass-effect {
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-        .refresh-btn {
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: white;
-            margin-right: 15px;
-            transition: transform 0.3s;
-        }
-        .refresh-btn:hover {
-            transform: rotate(180deg);
-        }
-        .negativo { color: red; font-weight: bold; }
-        .positivo { color: green; font-weight: bold; }
-        .msg-vazia { font-style: italic; color: #6c757d; text-align: center; padding: 20px; }
-        .btn-sm { font-size: 0.8rem; }
-        .expiration-bar {
-            background: #e5e7eb;
-            height: 8px;
-            width: 100%;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        .expiration-progress {
-            height: 8px;
-            border-radius: 4px;
-            transition: width 0.3s, background 0.3s;
+            padding: 6px 16px;
+            border-radius: 50px;
         }
         .expiration-text {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            color: var(--dark-gray);
+            color: var(--dark);
+            background: rgba(255,255,255,0.5);
+            padding: 5px 15px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
         }
         .warning-message {
             background: #fee2e2;
             border-left: 6px solid #ef4444;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
+            padding: 15px 20px;
+            border-radius: 20px;
             font-weight: 600;
             color: #b91c1c;
         }
@@ -261,30 +213,52 @@
         .toast-custom {
             background: white;
             border-left: 6px solid;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
             margin-bottom: 10px;
-            min-width: 280px;
-            max-width: 400px;
+            min-width: 300px;
             animation: slideIn 0.3s ease;
         }
         .toast-custom .toast-header {
             background: transparent;
             border-bottom: none;
-            padding: 12px 16px 0 16px;
+            padding: 15px 15px 0 15px;
             font-weight: 600;
         }
         .toast-custom .toast-body {
-            padding: 8px 16px 16px 16px;
-            color: #333;
+            padding: 10px 15px 15px 15px;
         }
-        .toast-success { border-left-color: var(--toast-success); }
-        .toast-error { border-left-color: var(--toast-error); }
-        .toast-warning { border-left-color: var(--toast-warning); }
-        .toast-info { border-left-color: var(--toast-info); }
+        .toast-success { border-left-color: var(--success); }
+        .toast-error { border-left-color: var(--danger); }
+        .toast-warning { border-left-color: var(--accent); }
+        .toast-info { border-left-color: var(--primary); }
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
+        }
+        .produto-item, .cliente-item {
+            cursor: pointer;
+            padding: 12px 16px;
+            border-radius: 20px;
+            background: white;
+            margin-bottom: 5px;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+        .produto-item:hover, .cliente-item:hover {
+            background: var(--primary-soft);
+            border-color: var(--primary);
+        }
+        .item-venda {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 6px solid var(--primary);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
     </style>
 </head>
@@ -293,8 +267,8 @@
 
     <!-- Tela de Login -->
     <div id="loginContainer" class="login-container">
-        <div class="card glass-effect p-5">
-            <h3 class="text-center mb-4" style="color: var(--primary-blue); font-weight: 700;">MEU NEGÓCIO</h3>
+        <div class="glass-card p-5">
+            <h3 class="text-center mb-4" style="color: var(--primary); font-weight: 700;">MEU NEGÓCIO</h3>
             <div class="mb-4">
                 <label class="form-label text-muted">USUÁRIO</label>
                 <input type="text" id="loginUser" class="form-control form-control-lg rounded-pill">
@@ -303,46 +277,37 @@
                 <label class="form-label text-muted">SENHA</label>
                 <input type="password" id="loginPass" class="form-control form-control-lg rounded-pill">
             </div>
-            <button class="btn btn-success w-100 py-3 rounded-pill" onclick="fazerLogin()">ENTRAR</button>
+            <button class="btn btn-modern w-100 py-3" onclick="fazerLogin()">ENTRAR</button>
             <div id="loginError" class="text-danger mt-3 text-center"></div>
         </div>
     </div>
 
     <!-- Sistema Principal -->
     <div id="mainSystem" style="display: none;">
-        <nav class="navbar navbar-dark py-2">
+        <nav class="navbar navbar-dark py-3">
             <div class="container-fluid px-4">
                 <span class="navbar-brand">
                     <i class="bi bi-pc-display me-2"></i>MEU NEGÓCIO
                 </span>
                 <div class="d-flex align-items-center">
                     <i class="bi bi-arrow-repeat refresh-btn me-3" onclick="refreshDados()" title="Atualizar dados"></i>
-                    <i class="bi bi-person-circle text-white fs-4 me-3" id="profileIcon" style="cursor:pointer; display: none;" onclick="abrirModalPerfil()" title="Meu Perfil"></i>
+                    <span class="expiration-text me-3" id="diasRestantes"></span>
                     <i class="bi bi-box-arrow-right text-white fs-4" style="cursor:pointer;" onclick="logout()" title="Sair"></i>
                     <span class="text-white-50 ms-3" id="userInfo"></span>
                 </div>
             </div>
-            <div id="expirationContainer" class="container-fluid px-4 mt-2">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="expiration-text" id="diasRestantes"></span>
-                    <span class="expiration-text" id="dataExpiracao"></span>
-                </div>
-                <div class="expiration-bar">
-                    <div class="expiration-progress" id="progressoExpiracao" style="width: 100%;"></div>
-                </div>
-                <div id="avisoExpiracao" class="warning-message" style="display: none;"></div>
-            </div>
+            <div id="avisoExpiracao" class="container-fluid px-4 mt-2" style="display: none;"></div>
         </nav>
 
         <div class="container mt-4">
             <div class="empresa-header">
                 <div class="row align-items-center g-3">
                     <div class="col-md-3">
-                        <i class="bi bi-building" style="color: var(--primary-blue);"></i>
+                        <i class="bi bi-building"></i>
                         <span><strong>MEU NEGÓCIO</strong></span>
                     </div>
                     <div class="col-md-3">
-                        <i class="bi bi-envelope" style="color: var(--primary-blue);"></i>
+                        <i class="bi bi-envelope"></i>
                         <span>CONTATO@MEUNEGOCIO.COM.BR</span>
                     </div>
                     <div class="col-md-3">
@@ -350,7 +315,7 @@
                         <a href="https://wa.me/5585998155652?text=SUPORTE" target="_blank">SUPORTE (85) 9 9815-5652</a>
                     </div>
                     <div class="col-md-3">
-                        <i class="bi bi-geo-alt" style="color: var(--primary-blue);"></i>
+                        <i class="bi bi-geo-alt"></i>
                         <span>R. VISCONDE DE MAUÁ, 123 - ALDEOTA</span>
                     </div>
                 </div>
@@ -376,14 +341,14 @@
                     <li class="nav-item" id="adminTab" style="display: none;"><button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin"><i class="bi bi-gear me-2"></i>ADMIN</button></li>
                 </ul>
 
-                <div class="tab-content p-4 border-0 bg-white rounded-4 shadow-sm mt-3" id="myTabContent">
-                    <!-- Aba Venda -->
+                <div class="tab-content p-4 glass-card mt-3" id="myTabContent">
+                    <!-- Aba Venda (sem seletor de vendedor) -->
                     <div class="tab-pane fade show active" id="venda">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">NOVA VENDA</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">NOVA VENDA</h4>
                         <div class="row g-4">
                             <div class="col-md-5">
-                                <div class="card p-4">
-                                    <h5 class="mb-3"><i class="bi bi-person me-2" style="color: var(--primary-blue);"></i>CLIENTE</h5>
+                                <div class="card p-4 border-0 shadow-sm">
+                                    <h5 class="mb-3"><i class="bi bi-person me-2" style="color: var(--primary);"></i>CLIENTE</h5>
                                     <input type="text" id="buscaClienteVenda" class="form-control rounded-pill mb-2" placeholder="DIGITE O NOME..." onkeyup="buscarClientesVenda()">
                                     <div id="listaClientesVenda" class="produto-lista mb-2"></div>
                                     <input type="hidden" id="clienteIdVenda">
@@ -397,25 +362,21 @@
                                         <input type="text" id="novoClienteCep" class="form-control rounded-pill mb-2" placeholder="CEP">
                                         <input type="email" id="novoClienteEmail" class="form-control rounded-pill mb-2" placeholder="E-MAIL">
                                         <input type="text" id="novoClienteTelefone" class="form-control rounded-pill mb-2" placeholder="TELEFONE">
+                                        <button class="btn btn-sm btn-success rounded-pill" onclick="cadastrarClienteRapido()">SALVAR CLIENTE</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-7">
-                                <div class="card p-4">
-                                    <h5 class="mb-3"><i class="bi bi-search me-2" style="color: var(--primary-blue);"></i>PRODUTOS</h5>
+                                <div class="card p-4 border-0 shadow-sm">
+                                    <h5 class="mb-3"><i class="bi bi-search me-2" style="color: var(--primary);"></i>PRODUTOS</h5>
                                     <input type="text" id="buscaProduto" class="form-control rounded-pill" placeholder="DIGITE O NOME..." onkeyup="filtrarProdutosVenda()">
                                     <div id="listaProdutosVenda" class="produto-lista mt-3"></div>
                                 </div>
-                                <div class="card p-4 mt-4">
-                                    <h5 class="mb-3"><i class="bi bi-cart-check me-2" style="color: var(--primary-blue);"></i>ITENS DA VENDA</h5>
+                                <div class="card p-4 mt-4 border-0 shadow-sm">
+                                    <h5 class="mb-3"><i class="bi bi-cart-check me-2" style="color: var(--primary);"></i>ITENS DA VENDA</h5>
                                     <div id="itensVendaContainer"></div>
                                     <hr>
                                     <div class="row g-3 align-items-center">
-                                        <div class="col-md-3" id="vendedorArea" style="display: none;">
-                                            <select id="vendedorVenda" class="form-select rounded-pill">
-                                                <option value="">SELECIONE VENDEDOR</option>
-                                            </select>
-                                        </div>
                                         <div class="col-md-3">
                                             <select id="formaPagamento" class="form-select rounded-pill" onchange="toggleFormaPagamento()">
                                                 <option value="dinheiro">DINHEIRO</option>
@@ -440,8 +401,8 @@
                                             </select>
                                         </div>
                                         <div class="col-md-3 text-end">
-                                            <h4 class="d-inline me-3 fw-bold" style="color: var(--primary-blue);">R$ <span id="totalVenda">0,00</span></h4>
-                                            <button class="btn btn-success rounded-pill px-4 py-2" onclick="finalizarVenda()"><i class="bi bi-check-lg"></i> FINALIZAR</button>
+                                            <h4 class="d-inline me-3 fw-bold" style="color: var(--primary);">R$ <span id="totalVenda">0,00</span></h4>
+                                            <button class="btn btn-modern px-4 py-2" onclick="finalizarVenda()"><i class="bi bi-check-lg"></i> FINALIZAR</button>
                                         </div>
                                     </div>
                                     <div id="vendaMsg" class="mt-3"></div>
@@ -450,13 +411,11 @@
                         </div>
                     </div>
 
-                    <!-- Aba Clientes -->
+                    <!-- Aba Clientes (igual anterior) -->
                     <div class="tab-pane fade" id="clientes">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">CLIENTES</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">CLIENTES</h4>
                         <div class="d-flex justify-content-between mb-4">
-                            <button class="btn btn-success rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalCliente" onclick="limparModalCliente()" id="btnNovoCliente">
-                                <i class="bi bi-plus-circle me-2"></i>NOVO CLIENTE
-                            </button>
+                            <button class="btn btn-modern px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalCliente" onclick="limparModalCliente()"><i class="bi bi-plus-circle me-2"></i>NOVO CLIENTE</button>
                             <input type="text" id="buscaClientes" class="form-control search-box w-25" placeholder="BUSCAR..." onkeyup="filtrarClientes()">
                         </div>
                         <div class="table-responsive">
@@ -469,11 +428,9 @@
 
                     <!-- Aba Produtos -->
                     <div class="tab-pane fade" id="produtos">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">PRODUTOS</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">PRODUTOS</h4>
                         <div class="d-flex justify-content-between mb-4">
-                            <button class="btn btn-success rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalProduto" onclick="limparModalProduto()" id="btnNovoProduto">
-                                <i class="bi bi-plus-circle me-2"></i>NOVO PRODUTO
-                            </button>
+                            <button class="btn btn-modern px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalProduto" onclick="limparModalProduto()"><i class="bi bi-plus-circle me-2"></i>NOVO PRODUTO</button>
                             <input type="text" id="buscaProdutos" class="form-control search-box w-25" placeholder="BUSCAR..." onkeyup="filtrarProdutos()">
                         </div>
                         <div class="table-responsive">
@@ -486,18 +443,18 @@
 
                     <!-- Aba Crédito -->
                     <div class="tab-pane fade" id="credito">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">CRÉDITO</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">CRÉDITO</h4>
                         <div class="row g-4 mb-4">
                             <div class="col-md-6">
                                 <div class="stat-card">
                                     <h6 class="text-muted">TOTAL A RECEBER</h6>
-                                    <h2 class="fw-bold" style="color: var(--accent-orange);">R$ <span id="totalCredito">0,00</span></h2>
+                                    <h2 class="fw-bold" style="color: var(--accent);">R$ <span id="totalCredito">0,00</span></h2>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="stat-card">
                                     <h6 class="text-muted">CLIENTES COM DÉBITO</h6>
-                                    <h2 class="fw-bold" style="color: var(--primary-blue);"><span id="totalClientesDebito">0</span></h2>
+                                    <h2 class="fw-bold" style="color: var(--primary);"><span id="totalClientesDebito">0</span></h2>
                                 </div>
                             </div>
                         </div>
@@ -508,7 +465,7 @@
                                     <input class="form-check-input" type="checkbox" id="filtroPendentes" onchange="filtrarCreditos()">
                                     <label class="form-check-label" for="filtroPendentes">APENAS PENDENTES</label>
                                 </div>
-                                <button class="btn btn-outline-danger rounded-pill" onclick="limparQuitados()"><i class="bi bi-trash"></i> LIMPAR QUITADOS</button>
+                                <button class="btn btn-outline-modern rounded-pill" onclick="limparQuitados()"><i class="bi bi-trash"></i> LIMPAR QUITADOS</button>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -521,23 +478,19 @@
 
                     <!-- Aba Gastos -->
                     <div class="tab-pane fade" id="gastos">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">GASTOS</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">GASTOS</h4>
                         <div class="row g-4">
                             <div class="col-md-6">
-                                <div class="card p-4">
+                                <div class="card p-4 border-0 shadow-sm">
                                     <h5 class="text-success mb-3"><i class="bi bi-arrow-down-circle me-2"></i>ENTRADAS</h5>
-                                    <button class="btn btn-outline-success rounded-pill mb-3 w-100" data-bs-toggle="modal" data-bs-target="#modalGasto" onclick="limparModalGasto('entrada')" id="btnNovaEntrada">
-                                        <i class="bi bi-plus me-2"></i>NOVA ENTRADA
-                                    </button>
+                                    <button class="btn btn-outline-success rounded-pill mb-3 w-100" data-bs-toggle="modal" data-bs-target="#modalGasto" onclick="limparModalGasto('entrada')"><i class="bi bi-plus me-2"></i>NOVA ENTRADA</button>
                                     <div id="listaEntradas"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="card p-4">
+                                <div class="card p-4 border-0 shadow-sm">
                                     <h5 class="text-danger mb-3"><i class="bi bi-arrow-up-circle me-2"></i>SAÍDAS</h5>
-                                    <button class="btn btn-outline-danger rounded-pill mb-3 w-100" data-bs-toggle="modal" data-bs-target="#modalGasto" onclick="limparModalGasto('saida')" id="btnNovaSaida">
-                                        <i class="bi bi-plus me-2"></i>NOVA SAÍDA
-                                    </button>
+                                    <button class="btn btn-outline-danger rounded-pill mb-3 w-100" data-bs-toggle="modal" data-bs-target="#modalGasto" onclick="limparModalGasto('saida')"><i class="bi bi-plus me-2"></i>NOVA SAÍDA</button>
                                     <div id="listaSaidas"></div>
                                 </div>
                             </div>
@@ -546,7 +499,7 @@
 
                     <!-- Aba Histórico de Vendas -->
                     <div class="tab-pane fade" id="historicoVendas">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">HISTÓRICO DE VENDAS</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">HISTÓRICO DE VENDAS</h4>
                         <div class="d-flex justify-content-between mb-4">
                             <input type="text" id="buscaHistorico" class="form-control search-box w-25" placeholder="BUSCAR CLIENTE..." onkeyup="filtrarHistoricoVendas()">
                             <select id="filtroVendedorHistorico" class="form-select search-box w-25" style="display: none;" onchange="filtrarHistoricoVendas()">
@@ -563,7 +516,7 @@
 
                     <!-- Aba Relatórios -->
                     <div class="tab-pane fade" id="relatorios">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">RELATÓRIOS</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">RELATÓRIOS</h4>
                         <div class="row g-3">
                             <div class="col-md-2">
                                 <label class="fw-semibold">TIPO</label>
@@ -584,9 +537,9 @@
                                 <input type="date" id="relFim" class="form-control rounded-pill">
                             </div>
                             <div class="col-md-4 d-flex align-items-end gap-2">
-                                <button class="btn btn-success rounded-pill px-4 py-2" onclick="gerarRelatorio()"><i class="bi bi-search me-2"></i>GERAR</button>
-                                <button class="btn btn-primary rounded-pill px-4 py-2" onclick="exportarPDF()"><i class="bi bi-file-pdf me-2"></i>PDF</button>
-                                <button class="btn btn-success rounded-pill px-4 py-2" onclick="exportarExcel()"><i class="bi bi-file-excel me-2"></i>EXCEL</button>
+                                <button class="btn btn-modern px-4 py-2" onclick="gerarRelatorio()"><i class="bi bi-search me-2"></i>GERAR</button>
+                                <button class="btn btn-outline-modern px-4 py-2" onclick="exportarPDF()"><i class="bi bi-file-pdf me-2"></i>PDF</button>
+                                <button class="btn btn-outline-modern px-4 py-2" onclick="exportarExcel()"><i class="bi bi-file-excel me-2"></i>EXCEL</button>
                             </div>
                         </div>
                         <hr>
@@ -604,26 +557,46 @@
                         <div id="relatorioResultado" class="mt-3"></div>
                     </div>
 
-                    <!-- Aba Dashboard -->
+                    <!-- Aba Dashboard (sem gráficos) -->
                     <div class="tab-pane fade" id="dashboard">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">DASHBOARD</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">DASHBOARD</h4>
                         <div class="row g-4">
-                            <div class="col-md-3"><div class="stat-card"><h6>VENDAS (MÊS)</h6><h3 class="fw-bold" style="color: var(--primary-blue);">R$ <span id="totalVendasMes">0,00</span></h3></div></div>
-                            <div class="col-md-3"><div class="stat-card"><h6>CUSTO (MÊS)</h6><h3 class="fw-bold text-danger">R$ <span id="totalCustoMes">0,00</span></h3></div></div>
-                            <div class="col-md-3"><div class="stat-card"><h6>LUCRO (MÊS)</h6><h3 class="fw-bold" style="color: var(--primary-blue);">R$ <span id="totalLucroMes">0,00</span></h3></div></div>
-                            <div class="col-md-3"><div class="stat-card"><h6>ESTOQUE</h6><h3 class="fw-bold" style="color: var(--primary-blue);"><span id="totalEstoqueItens">0</span></h3></div></div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h6 class="text-muted">VENDAS (MÊS)</h6>
+                                    <h3 class="fw-bold" style="color: var(--primary);">R$ <span id="totalVendasMes">0,00</span></h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h6 class="text-muted">CUSTO (MÊS)</h6>
+                                    <h3 class="fw-bold text-danger">R$ <span id="totalCustoMes">0,00</span></h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h6 class="text-muted">LUCRO (MÊS)</h6>
+                                    <h3 class="fw-bold" style="color: var(--primary);">R$ <span id="totalLucroMes">0,00</span></h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h6 class="text-muted">ESTOQUE</h6>
+                                    <h3 class="fw-bold" style="color: var(--primary);"><span id="totalEstoqueItens">0</span></h3>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row mt-5 g-4">
-                            <div class="col-md-6"><div class="card p-4"><h5 class="text-center mb-4">VENDAS POR DIA</h5><div class="chart-container"><canvas id="graficoVendasLinha"></canvas></div></div></div>
-                            <div class="col-md-6"><div class="card p-4"><h5 class="text-center mb-4">MAIS VENDIDOS</h5><div class="chart-container"><canvas id="graficoRanking"></canvas></div></div></div>
-                        </div>
-                        <div class="row mt-4" id="rankingVendedores" style="display: none;">
-                            <div class="col-12">
-                                <div class="card p-4">
-                                    <h5 class="text-center mb-4">RANKING DE VENDEDORES (MÊS)</h5>
-                                    <div class="chart-container">
-                                        <canvas id="graficoRankingVendedores"></canvas>
-                                    </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card p-4 border-0 shadow-sm">
+                                    <h5 class="text-center mb-3">PRODUTOS MAIS VENDIDOS</h5>
+                                    <div id="rankingProdutos" class="list-group"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="rankingVendedores" style="display: none;">
+                                <div class="card p-4 border-0 shadow-sm">
+                                    <h5 class="text-center mb-3">RANKING DE VENDEDORES</h5>
+                                    <div id="rankingVendedoresLista" class="list-group"></div>
                                 </div>
                             </div>
                         </div>
@@ -631,24 +604,24 @@
 
                     <!-- Aba Admin -->
                     <div class="tab-pane fade" id="admin">
-                        <h4 class="mb-4" style="color: var(--primary-blue);">PAINEL ADMINISTRATIVO</h4>
+                        <h4 class="mb-4" style="color: var(--primary);">PAINEL ADMINISTRATIVO</h4>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="card p-4">
+                                <div class="card p-4 border-0 shadow-sm">
                                     <h5>GESTÃO DE ACESSO</h5>
                                     <p>DIAS RESTANTES: <span id="adminDiasRestantes"></span></p>
-                                    <button class="btn btn-success mb-2 w-100" onclick="renovarAcesso()">RENOVAR ACESSO (+30 DIAS)</button>
-                                    <button class="btn btn-danger w-100" onclick="cancelarAcesso()">CANCELAR ACESSO</button>
+                                    <button class="btn btn-modern mb-2 w-100" onclick="renovarAcesso()">RENOVAR ACESSO (+30 DIAS)</button>
+                                    <button class="btn btn-outline-modern w-100" onclick="cancelarAcesso()">CANCELAR ACESSO</button>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="card p-4">
+                                <div class="card p-4 border-0 shadow-sm">
                                     <h5>CADASTRO DE USUÁRIOS</h5>
                                     <div class="mb-3">
                                         <label>NOVO USUÁRIO</label>
                                         <input type="text" id="novoUserLogin" class="form-control rounded-pill mb-2" placeholder="LOGIN">
                                         <input type="password" id="novoUserSenha" class="form-control rounded-pill mb-2" placeholder="SENHA">
-                                        <button class="btn btn-primary w-100" onclick="cadastrarUsuario()">CADASTRAR</button>
+                                        <button class="btn btn-modern w-100" onclick="cadastrarUsuario()">CADASTRAR</button>
                                     </div>
                                     <hr>
                                     <h6>USUÁRIOS CADASTRADOS</h6>
@@ -690,7 +663,7 @@
                 </div>
                 <div class="modal-footer border-0">
                     <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
-                    <button class="btn btn-success rounded-pill px-4" onclick="salvarCliente()">SALVAR</button>
+                    <button class="btn btn-modern rounded-pill px-4" onclick="salvarCliente()">SALVAR</button>
                 </div>
             </div>
         </div>
@@ -712,7 +685,7 @@
                 </div>
                 <div class="modal-footer border-0">
                     <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
-                    <button class="btn btn-success rounded-pill px-4" onclick="salvarProduto()">SALVAR</button>
+                    <button class="btn btn-modern rounded-pill px-4" onclick="salvarProduto()">SALVAR</button>
                 </div>
             </div>
         </div>
@@ -734,7 +707,7 @@
                 </div>
                 <div class="modal-footer border-0">
                     <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
-                    <button class="btn btn-success rounded-pill px-4" onclick="salvarGasto()">SALVAR</button>
+                    <button class="btn btn-modern rounded-pill px-4" onclick="salvarGasto()">SALVAR</button>
                 </div>
             </div>
         </div>
@@ -771,7 +744,7 @@
                 </div>
                 <div class="modal-footer border-0">
                     <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
-                    <button class="btn btn-success rounded-pill px-4" onclick="confirmarNegociacao()">CONFIRMAR</button>
+                    <button class="btn btn-modern rounded-pill px-4" onclick="confirmarNegociacao()">CONFIRMAR</button>
                 </div>
             </div>
         </div>
@@ -781,13 +754,13 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content rounded-4">
                 <div class="modal-header bg-success text-white border-0">
-                    <h5 class="modal-title">COMPROVANTE</h5>
+                    <h5 class="modal-title">COMPROVANTE DE COMPRA</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body" id="comprovanteBody"></div>
                 <div class="modal-footer border-0">
                     <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">FECHAR</button>
-                    <button class="btn btn-primary rounded-pill px-4" onclick="imprimirComprovante()"><i class="bi bi-printer"></i> IMPRIMIR</button>
+                    <button class="btn btn-modern rounded-pill px-4" onclick="imprimirComprovante()"><i class="bi bi-printer"></i> IMPRIMIR</button>
                 </div>
             </div>
         </div>
@@ -815,10 +788,14 @@
                         <label>NOME DE EXIBIÇÃO</label>
                         <input type="text" id="editUserDisplayName" class="form-control rounded-pill" placeholder="Como será chamado">
                     </div>
+                    <div class="mb-3 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="editUserAtivo" checked>
+                        <label class="form-check-label" for="editUserAtivo">USUÁRIO ATIVO</label>
+                    </div>
                 </div>
                 <div class="modal-footer border-0">
                     <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
-                    <button class="btn btn-success rounded-pill px-4" onclick="salvarEdicaoUsuario()">SALVAR</button>
+                    <button class="btn btn-modern rounded-pill px-4" onclick="salvarEdicaoUsuario()">SALVAR</button>
                 </div>
             </div>
         </div>
@@ -896,12 +873,7 @@
                 dataExpiracao = novaData;
             }
             const dias = calcularDiasRestantes();
-            const progressBar = document.getElementById('progressoExpiracao');
-            progressBar.style.width = (dias / 30 * 100) + '%';
-            progressBar.style.background = dias > 5 ? '#10b981' : '#ef4444';
-            document.getElementById('diasRestantes').innerText = `${dias} DIAS RESTANTES`;
-            const data = new Date(dataExpiracao);
-            document.getElementById('dataExpiracao').innerText = `EXPIRA EM: ${data.toLocaleDateString()}`;
+            document.getElementById('diasRestantes').innerHTML = `<i class="bi bi-clock me-1"></i>${dias} DIAS RESTANTES`;
             document.getElementById('adminDiasRestantes').innerText = dias;
 
             const avisoDiv = document.getElementById('avisoExpiracao');
@@ -916,6 +888,7 @@
                 mensagem = '❌ ACESSO EXPIRADO. CONTATE O ADMINISTRADOR.';
             }
             avisoDiv.style.display = mensagem ? 'block' : 'none';
+            avisoDiv.className = 'warning-message';
             avisoDiv.innerText = mensagem;
         }
 
@@ -934,7 +907,7 @@
             }
         }
 
-        // ==================== LOGIN ====================
+        // ==================== LOGIN (com verificação de ativo) ====================
         async function fazerLogin() {
             const user = document.getElementById('loginUser').value;
             const pass = document.getElementById('loginPass').value;
@@ -945,8 +918,6 @@
                 document.getElementById('mainSystem').style.display = 'block';
                 document.getElementById('userInfo').innerText = 'ADMIN';
                 document.getElementById('adminTab').style.display = 'list-item';
-                document.getElementById('profileIcon').style.display = 'inline-block';
-                document.getElementById('vendedorArea').style.display = 'block';
                 document.getElementById('filtroVendedorHistorico').style.display = 'block';
                 document.getElementById('filtroVendedorRelatorio').style.display = 'flex';
                 document.getElementById('rankingVendedores').style.display = 'block';
@@ -970,6 +941,10 @@
             });
             
             if (encontrado) {
+                if (encontrado.ativo === false) {
+                    showMessage('Usuário desativado. Contate o administrador.', 'error');
+                    return;
+                }
                 usuarioLogado = { 
                     tipo: 'user', 
                     login: user, 
@@ -980,8 +955,6 @@
                 document.getElementById('mainSystem').style.display = 'block';
                 document.getElementById('userInfo').innerText = user.toUpperCase();
                 document.getElementById('adminTab').style.display = 'none';
-                document.getElementById('profileIcon').style.display = 'none';
-                document.getElementById('vendedorArea').style.display = 'none';
                 document.getElementById('filtroVendedorHistorico').style.display = 'none';
                 document.getElementById('filtroVendedorRelatorio').style.display = 'none';
                 document.getElementById('rankingVendedores').style.display = 'none';
@@ -1003,12 +976,6 @@
                 ...doc.data()
             }));
             todosVendedores.push({ id: 'admin', login: 'miguelneto0x', displayName: 'Administrador' });
-            
-            const selectVenda = document.getElementById('vendedorVenda');
-            selectVenda.innerHTML = '<option value="">SELECIONE VENDEDOR</option>';
-            todosVendedores.forEach(v => {
-                selectVenda.innerHTML += `<option value="${v.id}">${v.displayName || v.login}</option>`;
-            });
 
             const selectHistorico = document.getElementById('filtroVendedorHistorico');
             selectHistorico.innerHTML = '<option value="">TODOS OS VENDEDORES</option>';
@@ -1120,6 +1087,35 @@
             });
         };
 
+        // Cliente rápido na venda
+        window.cadastrarClienteRapido = async function() {
+            const dados = {
+                nome: document.getElementById('novoClienteNome').value,
+                endereco: document.getElementById('novoClienteEndereco').value,
+                cidade: document.getElementById('novoClienteCidade').value,
+                estado: document.getElementById('novoClienteEstado').value,
+                cep: document.getElementById('novoClienteCep').value,
+                email: document.getElementById('novoClienteEmail').value,
+                telefone: document.getElementById('novoClienteTelefone').value
+            };
+            if (!dados.nome) {
+                showMessage('Nome é obrigatório', 'warning');
+                return;
+            }
+            const docRef = await db.collection('clientes').add(dados);
+            showMessage('Cliente cadastrado', 'success');
+            document.getElementById('novoClienteVenda').style.display = 'none';
+            selecionarClienteVenda(docRef.id, dados.nome);
+            // Limpar campos
+            document.getElementById('novoClienteNome').value = '';
+            document.getElementById('novoClienteEndereco').value = '';
+            document.getElementById('novoClienteCidade').value = '';
+            document.getElementById('novoClienteEstado').value = '';
+            document.getElementById('novoClienteCep').value = '';
+            document.getElementById('novoClienteEmail').value = '';
+            document.getElementById('novoClienteTelefone').value = '';
+        };
+
         // ==================== PRODUTOS ====================
         async function carregarProdutos() {
             const snapshot = await db.collection('produtos').get();
@@ -1218,7 +1214,7 @@
             lista.innerHTML = '';
             snapshot.forEach(doc => {
                 const p = doc.data();
-                if (p.nome.toLowerCase().includes(busca)) {
+                if (p.nome.toLowerCase().includes(busca) && p.estoque > 0) {
                     const div = document.createElement('div');
                     div.className = 'produto-item';
                     div.innerHTML = `${p.nome} - R$ ${formatarMoeda(p.preco)} (Estoque: ${p.estoque})`;
@@ -1275,14 +1271,10 @@
             document.getElementById('trocoValor').innerText = formatarMoeda(troco > 0 ? troco : 0);
         };
 
+        // Finalizar venda com comprovante e baixa no estoque
         window.finalizarVenda = async function() {
             if (itensVenda.length === 0) {
                 showMessage('Adicione itens à venda', 'warning');
-                return;
-            }
-            const vendedorId = usuarioLogado.tipo === 'admin' ? document.getElementById('vendedorVenda').value : usuarioLogado.userId;
-            if (!vendedorId) {
-                showMessage('Selecione o vendedor', 'warning');
                 return;
             }
             if (!clienteVendaSelecionado) {
@@ -1294,7 +1286,7 @@
             const venda = {
                 clienteId: clienteVendaSelecionado.id,
                 clienteNome: clienteVendaSelecionado.nome,
-                vendedorId,
+                vendedorId: usuarioLogado.userId,
                 vendedorNome: usuarioLogado.displayName,
                 data: new Date(),
                 itens: itensVenda,
@@ -1303,6 +1295,7 @@
                 status: 'concluida'
             };
 
+            // Registrar crédito se for parcelado
             if (forma === 'credito') {
                 const entrada = parseFloat(document.getElementById('entradaCredito').value) || 0;
                 const parcelas = parseInt(document.getElementById('parcelasCredito').value) || 1;
@@ -1311,7 +1304,7 @@
                 await db.collection('credito').add({
                     clienteId: clienteVendaSelecionado.id,
                     clienteNome: clienteVendaSelecionado.nome,
-                    vendedorId,
+                    vendedorId: usuarioLogado.userId,
                     data: new Date(),
                     total,
                     entrada,
@@ -1320,7 +1313,6 @@
                     parcelasPagas: 0,
                     saldo
                 });
-                showMessage('Venda parcelada registrada', 'success');
             }
 
             // Atualizar estoque
@@ -1331,13 +1323,83 @@
                 });
             }
 
-            await db.collection('vendas').add(venda);
+            // Salvar venda
+            const vendaRef = await db.collection('vendas').add(venda);
+
+            // Gerar comprovante
+            gerarComprovante(venda, itensVenda, vendaRef.id);
+
             showMessage('Venda finalizada', 'success');
             itensVenda = [];
             renderizarItensVenda();
             document.getElementById('clienteIdVenda').value = '';
             clienteVendaSelecionado = null;
+            document.getElementById('buscaClienteVenda').value = '';
             document.getElementById('listaClientesVenda').innerHTML = '';
+            document.getElementById('valorRecebido').value = '';
+            document.getElementById('trocoValor').innerText = '0,00';
+            document.getElementById('entradaCredito').value = '';
+            await carregarProdutos(); // atualiza estoque na tabela
+            await carregarHistoricoVendas();
+            await atualizarDashboard();
+        };
+
+        function gerarComprovante(venda, itens, vendaId) {
+            const data = new Date().toLocaleDateString();
+            const hora = new Date().toLocaleTimeString();
+            let html = `
+                <div style="font-family: monospace; padding: 20px;">
+                    <h4 class="text-center">COMPROVANTE DE COMPRA</h4>
+                    <hr>
+                    <p><strong>Razão Social:</strong> MEU NEGÓCIO</p>
+                    <p><strong>CNPJ:</strong> 12.345.678/0001-90</p>
+                    <p><strong>Endereço:</strong> R. VISCONDE DE MAUÁ, 123 - ALDEOTA</p>
+                    <p><strong>Telefone:</strong> (85) 9 9815-5652</p>
+                    <hr>
+                    <p><strong>Cliente:</strong> ${venda.clienteNome}</p>
+                    <p><strong>Data:</strong> ${data} ${hora}</p>
+                    <p><strong>Vendedor:</strong> ${venda.vendedorNome}</p>
+                    <p><strong>Forma de pagamento:</strong> ${venda.formaPagamento.toUpperCase()}</p>
+                    <hr>
+                    <table style="width:100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom:1px solid #000;">
+                                <th style="text-align:left;">Produto</th>
+                                <th style="text-align:center;">Qtd</th>
+                                <th style="text-align:right;">Unit.</th>
+                                <th style="text-align:right;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            itens.forEach(item => {
+                html += `
+                    <tr>
+                        <td>${item.nome}</td>
+                        <td style="text-align:center;">${item.quantidade}</td>
+                        <td style="text-align:right;">R$ ${formatarMoeda(item.preco)}</td>
+                        <td style="text-align:right;">R$ ${formatarMoeda(item.preco * item.quantidade)}</td>
+                    </tr>
+                `;
+            });
+            html += `
+                        </tbody>
+                    </table>
+                    <hr>
+                    <p style="text-align:right; font-size:1.2em;"><strong>TOTAL: R$ ${formatarMoeda(venda.total)}</strong></p>
+                    <hr>
+                    <p class="text-center">Obrigado pela preferência!</p>
+                </div>
+            `;
+            document.getElementById('comprovanteBody').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('modalComprovante')).show();
+        }
+
+        window.imprimirComprovante = function() {
+            const conteudo = document.getElementById('comprovanteBody').innerHTML;
+            const janela = window.open('', '_blank');
+            janela.document.write('<html><head><title>Comprovante</title></head><body>' + conteudo + '</body></html>');
+            janela.print();
         };
 
         // ==================== CLIENTES NA VENDA ====================
@@ -1351,7 +1413,7 @@
                 const c = doc.data();
                 if (c.nome.toLowerCase().includes(busca)) {
                     const div = document.createElement('div');
-                    div.className = 'produto-item';
+                    div.className = 'cliente-item';
                     div.innerHTML = c.nome;
                     div.onclick = () => selecionarClienteVenda(doc.id, c.nome);
                     lista.appendChild(div);
@@ -1359,7 +1421,7 @@
             });
             // Opção para cadastrar novo
             const divNovo = document.createElement('div');
-            divNovo.className = 'produto-item text-primary';
+            divNovo.className = 'cliente-item text-primary';
             divNovo.innerHTML = '+ CADASTRAR NOVO CLIENTE';
             divNovo.onclick = () => document.getElementById('novoClienteVenda').style.display = 'block';
             lista.appendChild(divNovo);
@@ -1512,104 +1574,130 @@
             carregarCreditos();
         };
 
-        // ==================== ADMIN: USUÁRIOS ====================
-        async function carregarUsuarios() {
-            const usuariosSnap = await db.collection('usuarios').get();
-            const lista = document.getElementById('listaUsuarios');
-            lista.innerHTML = '';
-            usuariosSnap.forEach(doc => {
-                const u = doc.data();
-                const li = document.createElement('li');
-                li.className = 'list-group-item d-flex justify-content-between align-items-center';
-                li.innerHTML = `
-                    ${u.login} (${u.displayName || 'sem nome'})
-                    <span>
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editarUsuario('${doc.id}', '${u.login}', '${u.displayName || ''}')"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="excluirUsuario('${doc.id}')"><i class="bi bi-trash"></i></button>
-                    </span>
+        // ==================== HISTÓRICO DE VENDAS ====================
+        async function carregarHistoricoVendas() {
+            const snapshot = await db.collection('vendas').orderBy('data', 'desc').get();
+            const tbody = document.querySelector('#tabelaHistoricoVendas tbody');
+            tbody.innerHTML = '';
+            snapshot.forEach(doc => {
+                const v = doc.data();
+                const data = v.data.toDate().toLocaleDateString();
+                const hora = v.data.toDate().toLocaleTimeString();
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${data}</td>
+                    <td>${hora}</td>
+                    <td>${v.clienteNome}</td>
+                    <td>${v.vendedorNome || v.vendedorId}</td>
+                    <td>${v.formaPagamento}</td>
+                    <td>R$ ${formatarMoeda(v.total)}</td>
+                    <td>${v.itens.length} itens</td>
+                    <td><button class="btn btn-sm btn-outline-info" onclick="verDetalhesVenda('${doc.id}')"><i class="bi bi-eye"></i></button></td>
                 `;
-                lista.appendChild(li);
+                tbody.appendChild(tr);
             });
         }
 
-        window.editarUsuario = function(id, login, displayName) {
-            document.getElementById('editUserId').value = id;
-            document.getElementById('editUserLogin').value = login;
-            document.getElementById('editUserSenha').value = '';
-            document.getElementById('editUserDisplayName').value = displayName;
-            new bootstrap.Modal(document.getElementById('modalEditarUsuario')).show();
+        window.filtrarHistoricoVendas = function() {
+            const busca = document.getElementById('buscaHistorico').value.toLowerCase();
+            const vendedorFiltro = document.getElementById('filtroVendedorHistorico').value;
+            const linhas = document.querySelectorAll('#tabelaHistoricoVendas tbody tr');
+            linhas.forEach(linha => {
+                const cliente = linha.children[2].innerText.toLowerCase();
+                const vendedor = linha.children[3].innerText;
+                if (cliente.includes(busca) && (!vendedorFiltro || vendedor.includes(vendedorFiltro))) {
+                    linha.style.display = '';
+                } else {
+                    linha.style.display = 'none';
+                }
+            });
         };
 
-        window.salvarEdicaoUsuario = async function() {
-            const id = document.getElementById('editUserId').value;
-            const login = document.getElementById('editUserLogin').value.trim();
-            const senha = document.getElementById('editUserSenha').value;
-            const displayName = document.getElementById('editUserDisplayName').value.trim();
-            if (!login) {
-                showMessage('Login não pode ser vazio.', 'warning');
-                return;
-            }
-            const updateData = { login };
-            if (senha) updateData.senha = senha;
-            if (displayName) updateData.displayName = displayName;
-            await db.collection('usuarios').doc(id).update(updateData);
-            bootstrap.Modal.getInstance(document.getElementById('modalEditarUsuario')).hide();
-            carregarUsuarios();
-            showMessage('Usuário atualizado.', 'success');
+        window.verDetalhesVenda = async function(id) {
+            const doc = await db.collection('vendas').doc(id).get();
+            const v = doc.data();
+            let html = `<p><strong>Cliente:</strong> ${v.clienteNome}</p>`;
+            html += `<p><strong>Data:</strong> ${v.data.toDate().toLocaleString()}</p>`;
+            html += `<p><strong>Vendedor:</strong> ${v.vendedorNome || v.vendedorId}</p>`;
+            html += `<p><strong>Forma de pagamento:</strong> ${v.formaPagamento}</p>`;
+            html += `<p><strong>Total:</strong> R$ ${formatarMoeda(v.total)}</p>`;
+            html += '<h6>Itens:</h6><ul>';
+            v.itens.forEach(item => {
+                html += `<li>${item.nome} - ${item.quantidade}x R$ ${formatarMoeda(item.preco)} = R$ ${formatarMoeda(item.preco * item.quantidade)}</li>`;
+            });
+            html += '</ul>';
+            document.getElementById('comprovanteBody').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('modalComprovante')).show();
         };
 
-        window.excluirUsuario = async function(id) {
-            if (usuarioLogado.tipo !== 'admin') return;
-            await db.collection('usuarios').doc(id).delete();
-            carregarUsuarios();
-            showMessage('Usuário excluído.', 'success');
-        };
+        // ==================== DASHBOARD (SEM GRÁFICOS) ====================
+        async function atualizarDashboard() {
+            const inicioMes = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+            const fimMes = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59);
 
-        window.cadastrarUsuario = async function() {
+            // Vendas do mês
+            let vendasQuery = db.collection('vendas').where('data', '>=', inicioMes).where('data', '<=', fimMes);
             if (usuarioLogado.tipo !== 'admin') {
-                showMessage('APENAS ADMIN PODE CADASTRAR USUÁRIOS.', 'error');
-                return;
+                vendasQuery = vendasQuery.where('vendedorId', '==', usuarioLogado.userId);
             }
-            const login = document.getElementById('novoUserLogin').value.trim();
-            const senha = document.getElementById('novoUserSenha').value.trim();
-            if (!login || !senha) {
-                showMessage('PREENCHA LOGIN E SENHA.', 'warning');
-                return;
+            const vendasSnap = await vendasQuery.get();
+            let totalVendas = 0;
+            let totalCusto = 0;
+            let produtosCount = {};
+
+            for (let doc of vendasSnap.docs) {
+                const v = doc.data();
+                totalVendas += v.total;
+                for (let item of v.itens) {
+                    // Buscar custo do produto (pode otimizar com cache)
+                    const prodDoc = await db.collection('produtos').doc(item.id).get();
+                    if (prodDoc.exists) {
+                        const custoUnit = prodDoc.data().custo;
+                        totalCusto += custoUnit * item.quantidade;
+                    }
+                    // Ranking de produtos
+                    if (!produtosCount[item.nome]) produtosCount[item.nome] = 0;
+                    produtosCount[item.nome] += item.quantidade;
+                }
             }
-            const usuariosSnap = await db.collection('usuarios').where('login', '==', login).get();
-            if (!usuariosSnap.empty) {
-                showMessage('LOGIN JÁ EXISTE.', 'error');
-                return;
+
+            document.getElementById('totalVendasMes').innerText = formatarMoeda(totalVendas);
+            document.getElementById('totalCustoMes').innerText = formatarMoeda(totalCusto);
+            document.getElementById('totalLucroMes').innerText = formatarMoeda(totalVendas - totalCusto);
+
+            // Estoque total (soma)
+            const produtosSnap = await db.collection('produtos').get();
+            let totalEstoque = 0;
+            produtosSnap.forEach(doc => totalEstoque += doc.data().estoque);
+            document.getElementById('totalEstoqueItens').innerText = totalEstoque;
+
+            // Ranking de produtos
+            const ranking = Object.entries(produtosCount).sort((a,b) => b[1] - a[1]).slice(0,5);
+            const rankingDiv = document.getElementById('rankingProdutos');
+            rankingDiv.innerHTML = '';
+            ranking.forEach(([nome, qtd]) => {
+                rankingDiv.innerHTML += `<div class="list-group-item d-flex justify-content-between align-items-center">${nome} <span class="badge bg-primary rounded-pill">${qtd} vendidos</span></div>`;
+            });
+
+            // Ranking de vendedores (admin)
+            if (usuarioLogado.tipo === 'admin') {
+                const vendasAdmin = await db.collection('vendas').where('data', '>=', inicioMes).where('data', '<=', fimMes).get();
+                let vendedores = {};
+                for (let doc of vendasAdmin.docs) {
+                    const v = doc.data();
+                    const nome = v.vendedorNome || v.vendedorId;
+                    vendedores[nome] = (vendedores[nome] || 0) + v.total;
+                }
+                const rankingVendedores = Object.entries(vendedores).sort((a,b) => b[1] - a[1]);
+                const lista = document.getElementById('rankingVendedoresLista');
+                lista.innerHTML = '';
+                rankingVendedores.forEach(([nome, total]) => {
+                    lista.innerHTML += `<div class="list-group-item d-flex justify-content-between align-items-center">${nome} <span class="badge bg-success rounded-pill">R$ ${formatarMoeda(total)}</span></div>`;
+                });
             }
-            await db.collection('usuarios').add({ login, senha });
-            document.getElementById('novoUserLogin').value = '';
-            document.getElementById('novoUserSenha').value = '';
-            carregarUsuarios();
-            showMessage('USUÁRIO CADASTRADO COM SUCESSO.', 'success');
-        };
+        }
 
-        // ==================== RENOVAR/CANCELAR ACESSO ====================
-        window.renovarAcesso = async function() {
-            if (usuarioLogado.tipo !== 'admin') return;
-            const configRef = db.collection('config').doc('sistema');
-            const novaData = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
-            await configRef.update({ expiracao: novaData });
-            await atualizarExpiracao();
-            aplicarBloqueio();
-            showMessage('ACESSO RENOVADO POR MAIS 30 DIAS.', 'success');
-        };
-
-        window.cancelarAcesso = async function() {
-            if (usuarioLogado.tipo !== 'admin') return;
-            const configRef = db.collection('config').doc('sistema');
-            const novaData = new Date().getTime() - 1;
-            await configRef.update({ expiracao: novaData });
-            await atualizarExpiracao();
-            aplicarBloqueio();
-            showMessage('ACESSO CANCELADO.', 'warning');
-        };
-
-        // ==================== RELATÓRIOS (já implementados anteriormente) ====================
+        // ==================== RELATÓRIOS ====================
         window.gerarRelatorio = async function() {
             const tipo = document.getElementById('relTipo').value;
             const inicio = document.getElementById('relInicio').value;
@@ -1727,80 +1815,140 @@
             showMessage('Excel gerado.', 'success');
         };
 
-        window.fecharMes = function() {
-            showMessage('Mês fechado com sucesso! (simulação)', 'success');
+        window.fecharMes = async function() {
+            // Gerar relatório consolidado do mês
+            const inicio = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+            const fim = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59);
+            
+            let html = '<h5>FECHAMENTO DO MÊS</h5>';
+            
+            // Vendas
+            const vendasSnap = await db.collection('vendas').where('data', '>=', inicio).where('data', '<=', fim).get();
+            let totalVendas = 0;
+            vendasSnap.forEach(doc => totalVendas += doc.data().total);
+            html += `<p><strong>Total de vendas:</strong> R$ ${formatarMoeda(totalVendas)}</p>`;
+            
+            // Gastos
+            const gastosSnap = await db.collection('gastos').where('data', '>=', inicio).where('data', '<=', fim).get();
+            let totalGastos = 0;
+            gastosSnap.forEach(doc => totalGastos += doc.data().valor);
+            html += `<p><strong>Total de gastos:</strong> R$ ${formatarMoeda(totalGastos)}</p>`;
+            
+            // Créditos pendentes
+            const creditosSnap = await db.collection('credito').where('saldo', '>', 0).get();
+            let totalCredito = 0;
+            creditosSnap.forEach(doc => totalCredito += doc.data().saldo);
+            html += `<p><strong>Créditos a receber:</strong> R$ ${formatarMoeda(totalCredito)}</p>`;
+            
+            html += '<hr><p>Mês fechado com sucesso!</p>';
+            
+            document.getElementById('relatorioResultado').innerHTML = html;
+            showMessage('Mês fechado. Relatório gerado.', 'success');
         };
 
-        // ==================== HISTÓRICO DE VENDAS ====================
-        async function carregarHistoricoVendas() {
-            const snapshot = await db.collection('vendas').orderBy('data', 'desc').get();
-            const tbody = document.querySelector('#tabelaHistoricoVendas tbody');
-            tbody.innerHTML = '';
-            snapshot.forEach(doc => {
-                const v = doc.data();
-                const data = v.data.toDate().toLocaleDateString();
-                const hora = v.data.toDate().toLocaleTimeString();
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${data}</td>
-                    <td>${hora}</td>
-                    <td>${v.clienteNome}</td>
-                    <td>${v.vendedorNome || v.vendedorId}</td>
-                    <td>${v.formaPagamento}</td>
-                    <td>R$ ${formatarMoeda(v.total)}</td>
-                    <td>${v.itens.length} itens</td>
-                    <td><button class="btn btn-sm btn-outline-info" onclick="verDetalhesVenda('${doc.id}')"><i class="bi bi-eye"></i></button></td>
+        // ==================== ADMIN: USUÁRIOS ====================
+        async function carregarUsuarios() {
+            const usuariosSnap = await db.collection('usuarios').get();
+            const lista = document.getElementById('listaUsuarios');
+            lista.innerHTML = '';
+            usuariosSnap.forEach(doc => {
+                const u = doc.data();
+                const ativo = u.ativo !== false ? 'Ativo' : 'Inativo';
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+                    ${u.login} (${u.displayName || 'sem nome'}) - ${ativo}
+                    <span>
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editarUsuario('${doc.id}', '${u.login}', '${u.displayName || ''}', ${u.ativo !== false})"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="excluirUsuario('${doc.id}')"><i class="bi bi-trash"></i></button>
+                    </span>
                 `;
-                tbody.appendChild(tr);
+                lista.appendChild(li);
             });
         }
 
-        window.filtrarHistoricoVendas = function() {
-            const busca = document.getElementById('buscaHistorico').value.toLowerCase();
-            const vendedorFiltro = document.getElementById('filtroVendedorHistorico').value;
-            const linhas = document.querySelectorAll('#tabelaHistoricoVendas tbody tr');
-            linhas.forEach(linha => {
-                const cliente = linha.children[2].innerText.toLowerCase();
-                const vendedor = linha.children[3].innerText;
-                if (cliente.includes(busca) && (!vendedorFiltro || vendedor.includes(vendedorFiltro))) {
-                    linha.style.display = '';
-                } else {
-                    linha.style.display = 'none';
-                }
-            });
+        window.editarUsuario = function(id, login, displayName, ativo) {
+            document.getElementById('editUserId').value = id;
+            document.getElementById('editUserLogin').value = login;
+            document.getElementById('editUserSenha').value = '';
+            document.getElementById('editUserDisplayName').value = displayName;
+            document.getElementById('editUserAtivo').checked = ativo;
+            new bootstrap.Modal(document.getElementById('modalEditarUsuario')).show();
         };
 
-        window.verDetalhesVenda = async function(id) {
-            const doc = await db.collection('vendas').doc(id).get();
-            const v = doc.data();
-            let html = `<p><strong>Cliente:</strong> ${v.clienteNome}</p>`;
-            html += `<p><strong>Data:</strong> ${v.data.toDate().toLocaleString()}</p>`;
-            html += `<p><strong>Vendedor:</strong> ${v.vendedorNome || v.vendedorId}</p>`;
-            html += `<p><strong>Forma de pagamento:</strong> ${v.formaPagamento}</p>`;
-            html += `<p><strong>Total:</strong> R$ ${formatarMoeda(v.total)}</p>`;
-            html += '<h6>Itens:</h6><ul>';
-            v.itens.forEach(item => {
-                html += `<li>${item.nome} - ${item.quantidade}x R$ ${formatarMoeda(item.preco)} = R$ ${formatarMoeda(item.preco * item.quantidade)}</li>`;
-            });
-            html += '</ul>';
-            document.getElementById('comprovanteBody').innerHTML = html;
-            new bootstrap.Modal(document.getElementById('modalComprovante')).show();
+        window.salvarEdicaoUsuario = async function() {
+            const id = document.getElementById('editUserId').value;
+            const login = document.getElementById('editUserLogin').value.trim();
+            const senha = document.getElementById('editUserSenha').value;
+            const displayName = document.getElementById('editUserDisplayName').value.trim();
+            const ativo = document.getElementById('editUserAtivo').checked;
+            if (!login) {
+                showMessage('Login não pode ser vazio.', 'warning');
+                return;
+            }
+            const updateData = { login, ativo };
+            if (senha) updateData.senha = senha;
+            if (displayName) updateData.displayName = displayName;
+            await db.collection('usuarios').doc(id).update(updateData);
+            bootstrap.Modal.getInstance(document.getElementById('modalEditarUsuario')).hide();
+            carregarUsuarios();
+            showMessage('Usuário atualizado.', 'success');
         };
 
-        window.imprimirComprovante = function() {
-            const conteudo = document.getElementById('comprovanteBody').innerHTML;
-            const janela = window.open('', '_blank');
-            janela.document.write('<html><head><title>Comprovante</title></head><body>' + conteudo + '</body></html>');
-            janela.print();
+        window.excluirUsuario = async function(id) {
+            if (usuarioLogado.tipo !== 'admin') return;
+            if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                await db.collection('usuarios').doc(id).delete();
+                carregarUsuarios();
+                showMessage('Usuário excluído.', 'success');
+            }
         };
 
-        // ==================== DASHBOARD (ESBOÇO) ====================
-        async function atualizarDashboard() {
-            // Implementar lógica para buscar dados do mês e atualizar gráficos
-            // (simplificado por enquanto)
-        }
+        window.cadastrarUsuario = async function() {
+            if (usuarioLogado.tipo !== 'admin') {
+                showMessage('APENAS ADMIN PODE CADASTRAR USUÁRIOS.', 'error');
+                return;
+            }
+            const login = document.getElementById('novoUserLogin').value.trim();
+            const senha = document.getElementById('novoUserSenha').value.trim();
+            if (!login || !senha) {
+                showMessage('PREENCHA LOGIN E SENHA.', 'warning');
+                return;
+            }
+            const usuariosSnap = await db.collection('usuarios').where('login', '==', login).get();
+            if (!usuariosSnap.empty) {
+                showMessage('LOGIN JÁ EXISTE.', 'error');
+                return;
+            }
+            await db.collection('usuarios').add({ login, senha, ativo: true });
+            document.getElementById('novoUserLogin').value = '';
+            document.getElementById('novoUserSenha').value = '';
+            carregarUsuarios();
+            showMessage('USUÁRIO CADASTRADO COM SUCESSO.', 'success');
+        };
 
-        // ==================== INICIALIZAÇÃO ====================
+        // ==================== RENOVAR/CANCELAR ACESSO ====================
+        window.renovarAcesso = async function() {
+            if (usuarioLogado.tipo !== 'admin') return;
+            const configRef = db.collection('config').doc('sistema');
+            const novaData = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
+            await configRef.update({ expiracao: novaData });
+            await atualizarExpiracao();
+            aplicarBloqueio();
+            showMessage('ACESSO RENOVADO POR MAIS 30 DIAS.', 'success');
+        };
+
+        window.cancelarAcesso = async function() {
+            if (usuarioLogado.tipo !== 'admin') return;
+            const configRef = db.collection('config').doc('sistema');
+            const novaData = new Date().getTime() - 1;
+            await configRef.update({ expiracao: novaData });
+            await atualizarExpiracao();
+            aplicarBloqueio();
+            showMessage('ACESSO CANCELADO.', 'warning');
+        };
+
+        // ==================== LOGOUT ====================
         window.logout = function() {
             document.getElementById('mainSystem').style.display = 'none';
             document.getElementById('loginContainer').style.display = 'block';
@@ -1810,6 +1958,7 @@
             usuarioLogado = { tipo: null };
         };
 
+        // ==================== REFRESH ====================
         window.refreshDados = async function() {
             await atualizarExpiracao();
             aplicarBloqueio();
@@ -1818,9 +1967,11 @@
             await carregarCreditos();
             await carregarGastos();
             await carregarHistoricoVendas();
+            await atualizarDashboard();
             showMessage('Dados atualizados.', 'info');
         };
 
+        // ==================== INICIALIZAÇÃO ====================
         async function iniciarSistema() {
             await carregarUsuarios();
             if (usuarioLogado.tipo === 'admin') {
@@ -1833,10 +1984,6 @@
             await carregarHistoricoVendas();
             await atualizarDashboard();
         }
-
-        window.abrirModalPerfil = function() {
-            showMessage('Use a aba Admin para gerenciar usuários.', 'info');
-        };
     </script>
 </body>
 </html>
