@@ -289,7 +289,6 @@
     </style>
 </head>
 <body>
-    <!-- Toast Container -->
     <div id="toastContainer"></div>
 
     <!-- Tela de Login -->
@@ -311,7 +310,6 @@
 
     <!-- Sistema Principal -->
     <div id="mainSystem" style="display: none;">
-        <!-- Navbar -->
         <nav class="navbar navbar-dark py-2">
             <div class="container-fluid px-4">
                 <span class="navbar-brand">
@@ -336,7 +334,6 @@
             </div>
         </nav>
 
-        <!-- Dados da Empresa -->
         <div class="container mt-4">
             <div class="empresa-header">
                 <div class="row align-items-center g-3">
@@ -365,10 +362,8 @@
             </div>
         </div>
 
-        <!-- Conteúdo principal -->
         <div id="conteudoSistema">
             <div class="container mt-3">
-                <!-- Abas -->
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item"><button class="nav-link active" id="venda-tab" data-bs-toggle="tab" data-bs-target="#venda"><i class="bi bi-cart-plus me-2"></i>VENDA</button></li>
                     <li class="nav-item"><button class="nav-link" id="clientes-tab" data-bs-toggle="tab" data-bs-target="#clientes"><i class="bi bi-people me-2"></i>CLIENTES</button></li>
@@ -381,9 +376,8 @@
                     <li class="nav-item" id="adminTab" style="display: none;"><button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin"><i class="bi bi-gear me-2"></i>ADMIN</button></li>
                 </ul>
 
-                <!-- Conteúdo das abas -->
                 <div class="tab-content p-4 border-0 bg-white rounded-4 shadow-sm mt-3" id="myTabContent">
-                    <!-- Aba Venda (com seletor de vendedor para admin) -->
+                    <!-- Aba Venda -->
                     <div class="tab-pane fade show active" id="venda">
                         <h4 class="mb-4" style="color: var(--primary-blue);">NOVA VENDA</h4>
                         <div class="row g-4">
@@ -417,7 +411,6 @@
                                     <div id="itensVendaContainer"></div>
                                     <hr>
                                     <div class="row g-3 align-items-center">
-                                        <!-- Seletor de vendedor (visível apenas para admin) -->
                                         <div class="col-md-3" id="vendedorArea" style="display: none;">
                                             <select id="vendedorVenda" class="form-select rounded-pill">
                                                 <option value="">SELECIONE VENDEDOR</option>
@@ -457,7 +450,7 @@
                         </div>
                     </div>
 
-                    <!-- Aba Clientes (estrutura mantida) -->
+                    <!-- Aba Clientes -->
                     <div class="tab-pane fade" id="clientes">
                         <h4 class="mb-4" style="color: var(--primary-blue);">CLIENTES</h4>
                         <div class="d-flex justify-content-between mb-4">
@@ -474,7 +467,7 @@
                         </div>
                     </div>
 
-                    <!-- Aba Produtos (estrutura mantida) -->
+                    <!-- Aba Produtos -->
                     <div class="tab-pane fade" id="produtos">
                         <h4 class="mb-4" style="color: var(--primary-blue);">PRODUTOS</h4>
                         <div class="d-flex justify-content-between mb-4">
@@ -491,7 +484,7 @@
                         </div>
                     </div>
 
-                    <!-- Aba Crédito (estrutura mantida) -->
+                    <!-- Aba Crédito -->
                     <div class="tab-pane fade" id="credito">
                         <h4 class="mb-4" style="color: var(--primary-blue);">CRÉDITO</h4>
                         <div class="row g-4 mb-4">
@@ -526,7 +519,7 @@
                         </div>
                     </div>
 
-                    <!-- Aba Gastos (estrutura mantida) -->
+                    <!-- Aba Gastos -->
                     <div class="tab-pane fade" id="gastos">
                         <h4 class="mb-4" style="color: var(--primary-blue);">GASTOS</h4>
                         <div class="row g-4">
@@ -551,7 +544,7 @@
                         </div>
                     </div>
 
-                    <!-- Aba Histórico de Vendas (filtrada por vendedor) -->
+                    <!-- Aba Histórico de Vendas -->
                     <div class="tab-pane fade" id="historicoVendas">
                         <h4 class="mb-4" style="color: var(--primary-blue);">HISTÓRICO DE VENDAS</h4>
                         <div class="d-flex justify-content-between mb-4">
@@ -568,7 +561,7 @@
                         </div>
                     </div>
 
-                    <!-- Aba Relatórios (com filtro de vendedor) -->
+                    <!-- Aba Relatórios -->
                     <div class="tab-pane fade" id="relatorios">
                         <h4 class="mb-4" style="color: var(--primary-blue);">RELATÓRIOS</h4>
                         <div class="row g-3">
@@ -597,7 +590,6 @@
                             </div>
                         </div>
                         <hr>
-                        <!-- Filtro de vendedor para admin -->
                         <div class="row mb-3" id="filtroVendedorRelatorio" style="display: none;">
                             <div class="col-md-3">
                                 <label class="fw-semibold">VENDEDOR</label>
@@ -625,7 +617,6 @@
                             <div class="col-md-6"><div class="card p-4"><h5 class="text-center mb-4">VENDAS POR DIA</h5><div class="chart-container"><canvas id="graficoVendasLinha"></canvas></div></div></div>
                             <div class="col-md-6"><div class="card p-4"><h5 class="text-center mb-4">MAIS VENDIDOS</h5><div class="chart-container"><canvas id="graficoRanking"></canvas></div></div></div>
                         </div>
-                        <!-- Ranking de vendedores (visível apenas para admin) -->
                         <div class="row mt-4" id="rankingVendedores" style="display: none;">
                             <div class="col-12">
                                 <div class="card p-4">
@@ -670,7 +661,6 @@
             </div>
         </div>
 
-        <!-- Rodapé -->
         <footer class="footer text-center">
             <div class="container">
                 <span class="opacity-75">MEU NEGÓCIO - GESTÃO V15.0</span>
@@ -678,12 +668,130 @@
         </footer>
     </div>
 
-    <!-- MODAIS (Cliente, Produto, Gasto, Negociar Crédito, Comprovante) - conteúdo omitido por brevidade -->
-    <div class="modal fade" id="modalCliente" tabindex="-1"><!-- ... --></div>
-    <div class="modal fade" id="modalProduto" tabindex="-1"><!-- ... --></div>
-    <div class="modal fade" id="modalGasto" tabindex="-1"><!-- ... --></div>
-    <div class="modal fade" id="modalNegociarCredito" tabindex="-1"><!-- ... --></div>
-    <div class="modal fade" id="modalComprovante" tabindex="-1"><!-- ... --></div>
+    <!-- MODAIS -->
+    <div class="modal fade" id="modalCliente" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content rounded-4">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title" id="modalClienteTitle">NOVO CLIENTE</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="clienteId">
+                    <div class="row">
+                        <div class="col-md-6 mb-3"><label>NOME *</label><input type="text" id="modalClienteNome" class="form-control rounded-pill"></div>
+                        <div class="col-md-6 mb-3"><label>ENDEREÇO</label><input type="text" id="modalClienteEndereco" class="form-control rounded-pill"></div>
+                        <div class="col-md-4 mb-3"><label>CIDADE</label><input type="text" id="modalClienteCidade" class="form-control rounded-pill"></div>
+                        <div class="col-md-4 mb-3"><label>ESTADO</label><input type="text" id="modalClienteEstado" class="form-control rounded-pill"></div>
+                        <div class="col-md-4 mb-3"><label>CEP</label><input type="text" id="modalClienteCep" class="form-control rounded-pill"></div>
+                        <div class="col-md-6 mb-3"><label>EMAIL</label><input type="email" id="modalClienteEmail" class="form-control rounded-pill"></div>
+                        <div class="col-md-6 mb-3"><label>TELEFONE</label><input type="text" id="modalClienteTelefone" class="form-control rounded-pill"></div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
+                    <button class="btn btn-success rounded-pill px-4" onclick="salvarCliente()">SALVAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalProduto" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-4">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title" id="modalProdutoTitle">NOVO PRODUTO</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="produtoId">
+                    <div class="mb-3"><label>NOME</label><input type="text" id="modalProdutoNome" class="form-control rounded-pill"></div>
+                    <div class="mb-3"><label>CUSTO (R$)</label><input type="number" step="0.01" id="modalProdutoCusto" class="form-control rounded-pill"></div>
+                    <div class="mb-3"><label>PREÇO (R$)</label><input type="number" step="0.01" id="modalProdutoPreco" class="form-control rounded-pill"></div>
+                    <div class="mb-3"><label>ESTOQUE</label><input type="number" id="modalProdutoEstoque" class="form-control rounded-pill"></div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
+                    <button class="btn btn-success rounded-pill px-4" onclick="salvarProduto()">SALVAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalGasto" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-4">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title" id="modalGastoTitle">NOVO GASTO</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="gastoId">
+                    <input type="hidden" id="gastoTipo" value="entrada">
+                    <div class="mb-3"><label>DATA</label><input type="date" id="gastoData" class="form-control rounded-pill"></div>
+                    <div class="mb-3"><label>DESCRIÇÃO</label><input type="text" id="gastoDescricao" class="form-control rounded-pill"></div>
+                    <div class="mb-3"><label>VALOR</label><input type="number" step="0.01" id="gastoValor" class="form-control rounded-pill"></div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
+                    <button class="btn btn-success rounded-pill px-4" onclick="salvarGasto()">SALVAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalNegociarCredito" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-4">
+                <div class="modal-header bg-warning text-white border-0">
+                    <h5 class="modal-title">NEGOCIAR CRÉDITO</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="negociarCreditoId">
+                    <p>CLIENTE: <strong id="negociarClienteNome"></strong></p>
+                    <p>SALDO ATUAL: R$ <span id="negociarSaldoAtual"></span></p>
+                    <hr>
+                    <div class="mb-3">
+                        <label>VALOR A PAGAR</label>
+                        <input type="number" id="negociarValorPago" class="form-control rounded-pill" step="0.01" min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label>NOVAS PARCELAS</label>
+                        <select id="negociarNovasParcelas" class="form-select rounded-pill">
+                            <option value="">SEM ALTERAÇÃO</option>
+                            <option value="1">1X</option>
+                            <option value="2">2X</option>
+                            <option value="3">3X</option>
+                            <option value="4">4X</option>
+                            <option value="5">5X</option>
+                            <option value="6">6X</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">CANCELAR</button>
+                    <button class="btn btn-success rounded-pill px-4" onclick="confirmarNegociacao()">CONFIRMAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalComprovante" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content rounded-4">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title">COMPROVANTE</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="comprovanteBody"></div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">FECHAR</button>
+                    <button class="btn btn-primary rounded-pill px-4" onclick="imprimirComprovante()"><i class="bi bi-printer"></i> IMPRIMIR</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Editar Usuário -->
     <div class="modal fade" id="modalEditarUsuario" tabindex="-1">
@@ -716,7 +824,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -735,7 +842,9 @@
         // ==================== VARIÁVEIS GLOBAIS ====================
         let usuarioLogado = { tipo: null, login: null, userId: null, displayName: null };
         let dataExpiracao = null;
-        let todosVendedores = []; // lista de {id, login, displayName}
+        let todosVendedores = [];
+        let itensVenda = [];
+        let clienteVendaSelecionado = null;
 
         // ==================== FUNÇÕES DE NOTIFICAÇÃO ====================
         function showMessage(message, type = 'info') {
@@ -761,10 +870,7 @@
                 <div class="toast-body">${message}</div>
             `;
             container.appendChild(toastEl);
-            
-            setTimeout(() => {
-                toastEl.remove();
-            }, 5000);
+            setTimeout(() => toastEl.remove(), 5000);
         }
 
         // ==================== CONTROLE DE ACESSO ====================
@@ -917,158 +1023,494 @@
             });
         }
 
-        // ==================== FUNÇÕES DE RELATÓRIOS (CORRIGIDAS) ====================
-        window.gerarRelatorio = async function() {
-            const tipo = document.getElementById('relTipo').value;
-            const inicio = document.getElementById('relInicio').value;
-            const fim = document.getElementById('relFim').value;
-            const vendedorId = usuarioLogado.tipo === 'admin' ? document.getElementById('relVendedor').value : usuarioLogado.userId;
+        // ==================== CLIENTES ====================
+        async function carregarClientes() {
+            const snapshot = await db.collection('clientes').get();
+            const tbody = document.querySelector('#tabelaClientes tbody');
+            tbody.innerHTML = '';
+            snapshot.forEach(doc => {
+                const c = doc.data();
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${doc.id.slice(0,6)}</td>
+                    <td>${c.nome}</td>
+                    <td>${c.endereco || ''}</td>
+                    <td>${c.telefone || ''}</td>
+                    <td>${c.email || ''}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editarCliente('${doc.id}')"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="excluirCliente('${doc.id}')"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
 
-            let dataInicio = inicio ? new Date(inicio) : new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-            let dataFim = fim ? new Date(fim) : new Date();
-            dataFim.setHours(23, 59, 59, 999);
+        window.limparModalCliente = function() {
+            document.getElementById('clienteId').value = '';
+            document.getElementById('modalClienteNome').value = '';
+            document.getElementById('modalClienteEndereco').value = '';
+            document.getElementById('modalClienteCidade').value = '';
+            document.getElementById('modalClienteEstado').value = '';
+            document.getElementById('modalClienteCep').value = '';
+            document.getElementById('modalClienteEmail').value = '';
+            document.getElementById('modalClienteTelefone').value = '';
+            document.getElementById('modalClienteTitle').innerText = 'NOVO CLIENTE';
+        };
 
-            let query;
-            let html = '';
+        window.salvarCliente = async function() {
+            const id = document.getElementById('clienteId').value;
+            const dados = {
+                nome: document.getElementById('modalClienteNome').value,
+                endereco: document.getElementById('modalClienteEndereco').value,
+                cidade: document.getElementById('modalClienteCidade').value,
+                estado: document.getElementById('modalClienteEstado').value,
+                cep: document.getElementById('modalClienteCep').value,
+                email: document.getElementById('modalClienteEmail').value,
+                telefone: document.getElementById('modalClienteTelefone').value
+            };
+            if (!dados.nome) {
+                showMessage('Nome é obrigatório', 'warning');
+                return;
+            }
+            if (id) {
+                await db.collection('clientes').doc(id).update(dados);
+                showMessage('Cliente atualizado', 'success');
+            } else {
+                await db.collection('clientes').add(dados);
+                showMessage('Cliente cadastrado', 'success');
+            }
+            bootstrap.Modal.getInstance(document.getElementById('modalCliente')).hide();
+            carregarClientes();
+        };
 
-            try {
-                if (tipo === 'historico') {
-                    query = db.collection('vendas')
-                        .where('data', '>=', dataInicio)
-                        .where('data', '<=', dataFim);
-                    if (vendedorId) {
-                        query = query.where('vendedorId', '==', vendedorId);
-                    }
-                    const snapshot = await query.get();
-                    if (snapshot.empty) {
-                        html = '<p class="msg-vazia">Nenhuma venda encontrada no período.</p>';
-                    } else {
-                        let tabela = '<table class="table table-sm"><thead><tr><th>Data</th><th>Cliente</th><th>Vendedor</th><th>Pagamento</th><th>Total</th></tr></thead><tbody>';
-                        snapshot.forEach(doc => {
-                            const v = doc.data();
-                            const data = v.data.toDate().toLocaleDateString();
-                            tabela += `<tr><td>${data}</td><td>${v.cliente}</td><td>${v.vendedorNome || v.vendedorId}</td><td>${v.pagamento}</td><td>R$ ${formatarMoeda(v.total)}</td></tr>`;
-                        });
-                        tabela += '</tbody></table>';
-                        html = tabela;
-                    }
-                } else if (tipo === 'estoque') {
-                    const snapshot = await db.collection('produtos').get();
-                    if (snapshot.empty) {
-                        html = '<p class="msg-vazia">Nenhum produto cadastrado.</p>';
-                    } else {
-                        let tabela = '<table class="table table-sm"><thead><tr><th>Produto</th><th>Custo</th><th>Preço</th><th>Estoque</th><th>Margem</th></tr></thead><tbody>';
-                        snapshot.forEach(doc => {
-                            const p = doc.data();
-                            const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(2);
-                            tabela += `<tr><td>${p.nome}</td><td>R$ ${formatarMoeda(p.custo)}</td><td>R$ ${formatarMoeda(p.preco)}</td><td>${p.estoque}</td><td>${margem}%</td></tr>`;
-                        });
-                        tabela += '</tbody></table>';
-                        html = tabela;
-                    }
-                } else if (tipo === 'entradas' || tipo === 'saidas') {
-                    query = db.collection('gastos')
-                        .where('tipo', '==', tipo === 'entradas' ? 'entrada' : 'saida')
-                        .where('data', '>=', dataInicio)
-                        .where('data', '<=', dataFim);
-                    const snapshot = await query.get();
-                    if (snapshot.empty) {
-                        html = `<p class="msg-vazia">Nenhum registro de ${tipo} encontrado.</p>`;
-                    } else {
-                        let total = 0;
-                        let tabela = '<table class="table table-sm"><thead><tr><th>Data</th><th>Descrição</th><th>Valor</th></tr></thead><tbody>';
-                        snapshot.forEach(doc => {
-                            const g = doc.data();
-                            total += g.valor;
-                            const data = g.data.toDate().toLocaleDateString();
-                            tabela += `<tr><td>${data}</td><td>${g.descricao}</td><td>R$ ${formatarMoeda(g.valor)}</td></tr>`;
-                        });
-                        tabela += `<tr><td colspan="2"><strong>TOTAL</strong></td><td><strong>R$ ${formatarMoeda(total)}</strong></td></tr>`;
-                        tabela += '</tbody></table>';
-                        html = tabela;
-                    }
-                } else if (tipo === 'credito') {
-                    query = db.collection('credito')
-                        .where('saldo', '>', 0);
-                    const snapshot = await query.get();
-                    if (snapshot.empty) {
-                        html = '<p class="msg-vazia">Nenhum crédito pendente.</p>';
-                    } else {
-                        let tabela = '<table class="table table-sm"><thead><tr><th>Cliente</th><th>Total</th><th>Entrada</th><th>Parcelas</th><th>Parcelas Pagas</th><th>Saldo</th></tr></thead><tbody>';
-                        snapshot.forEach(doc => {
-                            const c = doc.data();
-                            tabela += `<tr><td>${c.cliente}</td><td>R$ ${formatarMoeda(c.total)}</td><td>R$ ${formatarMoeda(c.entrada)}</td><td>${c.parcelas}</td><td>${c.parcelasPagas}</td><td>R$ ${formatarMoeda(c.saldo)}</td></tr>`;
-                        });
-                        tabela += '</tbody></table>';
-                        html = tabela;
-                    }
+        window.editarCliente = async function(id) {
+            const doc = await db.collection('clientes').doc(id).get();
+            const c = doc.data();
+            document.getElementById('clienteId').value = id;
+            document.getElementById('modalClienteNome').value = c.nome || '';
+            document.getElementById('modalClienteEndereco').value = c.endereco || '';
+            document.getElementById('modalClienteCidade').value = c.cidade || '';
+            document.getElementById('modalClienteEstado').value = c.estado || '';
+            document.getElementById('modalClienteCep').value = c.cep || '';
+            document.getElementById('modalClienteEmail').value = c.email || '';
+            document.getElementById('modalClienteTelefone').value = c.telefone || '';
+            document.getElementById('modalClienteTitle').innerText = 'EDITAR CLIENTE';
+            new bootstrap.Modal(document.getElementById('modalCliente')).show();
+        };
+
+        window.excluirCliente = async function(id) {
+            if (confirm('Tem certeza que deseja excluir este cliente?')) {
+                await db.collection('clientes').doc(id).delete();
+                showMessage('Cliente excluído', 'success');
+                carregarClientes();
+            }
+        };
+
+        window.filtrarClientes = function() {
+            const busca = document.getElementById('buscaClientes').value.toLowerCase();
+            const linhas = document.querySelectorAll('#tabelaClientes tbody tr');
+            linhas.forEach(linha => {
+                const nome = linha.children[1].innerText.toLowerCase();
+                if (nome.includes(busca)) {
+                    linha.style.display = '';
+                } else {
+                    linha.style.display = 'none';
                 }
-                document.getElementById('relatorioResultado').innerHTML = html;
-                showMessage('Relatório gerado com sucesso!', 'success');
-            } catch (error) {
-                showMessage('Erro ao gerar relatório: ' + error.message, 'error');
-            }
+            });
         };
 
-        window.exportarPDF = function() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.text('Relatório', 10, 10);
-            // Aqui você pode extrair a tabela do relatorioResultado e usar autoTable
-            // Exemplo simples:
-            const tabela = document.querySelector('#relatorioResultado table');
-            if (!tabela) {
-                showMessage('Nenhum dado para exportar.', 'warning');
+        // ==================== PRODUTOS ====================
+        async function carregarProdutos() {
+            const snapshot = await db.collection('produtos').get();
+            const tbody = document.querySelector('#tabelaProdutos tbody');
+            tbody.innerHTML = '';
+            snapshot.forEach(doc => {
+                const p = doc.data();
+                const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(2);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${doc.id.slice(0,6)}</td>
+                    <td>${p.nome}</td>
+                    <td>R$ ${formatarMoeda(p.custo)}</td>
+                    <td>R$ ${formatarMoeda(p.preco)}</td>
+                    <td>${p.estoque}</td>
+                    <td>${margem}%</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="editarProduto('${doc.id}')"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="excluirProduto('${doc.id}')"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.limparModalProduto = function() {
+            document.getElementById('produtoId').value = '';
+            document.getElementById('modalProdutoNome').value = '';
+            document.getElementById('modalProdutoCusto').value = '';
+            document.getElementById('modalProdutoPreco').value = '';
+            document.getElementById('modalProdutoEstoque').value = '';
+            document.getElementById('modalProdutoTitle').innerText = 'NOVO PRODUTO';
+        };
+
+        window.salvarProduto = async function() {
+            const id = document.getElementById('produtoId').value;
+            const dados = {
+                nome: document.getElementById('modalProdutoNome').value,
+                custo: parseFloat(document.getElementById('modalProdutoCusto').value) || 0,
+                preco: parseFloat(document.getElementById('modalProdutoPreco').value) || 0,
+                estoque: parseInt(document.getElementById('modalProdutoEstoque').value) || 0
+            };
+            if (!dados.nome) {
+                showMessage('Nome é obrigatório', 'warning');
                 return;
             }
-            doc.autoTable({ html: tabela });
-            doc.save('relatorio.pdf');
-            showMessage('PDF gerado.', 'success');
-        };
-
-        window.exportarExcel = function() {
-            const tabela = document.querySelector('#relatorioResultado table');
-            if (!tabela) {
-                showMessage('Nenhum dado para exportar.', 'warning');
-                return;
+            if (id) {
+                await db.collection('produtos').doc(id).update(dados);
+                showMessage('Produto atualizado', 'success');
+            } else {
+                await db.collection('produtos').add(dados);
+                showMessage('Produto cadastrado', 'success');
             }
-            const wb = XLSX.utils.table_to_book(tabela, { sheet: "Relatório" });
-            XLSX.writeFile(wb, "relatorio.xlsx");
-            showMessage('Excel gerado.', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('modalProduto')).hide();
+            carregarProdutos();
         };
 
-        window.fecharMes = async function() {
-            // Exemplo: arquivar vendas do mês anterior, zerar contadores, etc.
-            showMessage('Mês fechado com sucesso! (simulação)', 'success');
+        window.editarProduto = async function(id) {
+            const doc = await db.collection('produtos').doc(id).get();
+            const p = doc.data();
+            document.getElementById('produtoId').value = id;
+            document.getElementById('modalProdutoNome').value = p.nome || '';
+            document.getElementById('modalProdutoCusto').value = p.custo || '';
+            document.getElementById('modalProdutoPreco').value = p.preco || '';
+            document.getElementById('modalProdutoEstoque').value = p.estoque || '';
+            document.getElementById('modalProdutoTitle').innerText = 'EDITAR PRODUTO';
+            new bootstrap.Modal(document.getElementById('modalProduto')).show();
         };
 
-        // ==================== DEMAIS FUNÇÕES (ESBOÇO) ====================
+        window.excluirProduto = async function(id) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                await db.collection('produtos').doc(id).delete();
+                showMessage('Produto excluído', 'success');
+                carregarProdutos();
+            }
+        };
+
+        window.filtrarProdutos = function() {
+            const busca = document.getElementById('buscaProdutos').value.toLowerCase();
+            const linhas = document.querySelectorAll('#tabelaProdutos tbody tr');
+            linhas.forEach(linha => {
+                const nome = linha.children[1].innerText.toLowerCase();
+                if (nome.includes(busca)) {
+                    linha.style.display = '';
+                } else {
+                    linha.style.display = 'none';
+                }
+            });
+        };
+
+        // ==================== VENDAS (ITENS) ====================
+        window.filtrarProdutosVenda = async function() {
+            const busca = document.getElementById('buscaProduto').value.toLowerCase();
+            const snapshot = await db.collection('produtos').get();
+            const lista = document.getElementById('listaProdutosVenda');
+            lista.innerHTML = '';
+            snapshot.forEach(doc => {
+                const p = doc.data();
+                if (p.nome.toLowerCase().includes(busca)) {
+                    const div = document.createElement('div');
+                    div.className = 'produto-item';
+                    div.innerHTML = `${p.nome} - R$ ${formatarMoeda(p.preco)} (Estoque: ${p.estoque})`;
+                    div.onclick = () => adicionarItemVenda(doc.id, p.nome, p.preco);
+                    lista.appendChild(div);
+                }
+            });
+        };
+
+        function adicionarItemVenda(id, nome, preco) {
+            const itemExistente = itensVenda.find(i => i.id === id);
+            if (itemExistente) {
+                itemExistente.quantidade++;
+            } else {
+                itensVenda.push({ id, nome, preco, quantidade: 1 });
+            }
+            renderizarItensVenda();
+        }
+
+        function renderizarItensVenda() {
+            const container = document.getElementById('itensVendaContainer');
+            container.innerHTML = '';
+            let total = 0;
+            itensVenda.forEach((item, index) => {
+                const subtotal = item.preco * item.quantidade;
+                total += subtotal;
+                const div = document.createElement('div');
+                div.className = 'item-venda';
+                div.innerHTML = `
+                    <span>${item.nome} (x${item.quantidade})</span>
+                    <span>R$ ${formatarMoeda(subtotal)}</span>
+                    <button class="btn btn-sm btn-outline-danger" onclick="removerItemVenda(${index})"><i class="bi bi-trash"></i></button>
+                `;
+                container.appendChild(div);
+            });
+            document.getElementById('totalVenda').innerText = formatarMoeda(total);
+        }
+
+        window.removerItemVenda = function(index) {
+            itensVenda.splice(index, 1);
+            renderizarItensVenda();
+        };
+
+        window.toggleFormaPagamento = function() {
+            const forma = document.getElementById('formaPagamento').value;
+            document.getElementById('trocoArea').style.display = forma === 'dinheiro' ? 'block' : 'none';
+            document.getElementById('creditoArea').style.display = forma === 'credito' ? 'block' : 'none';
+        };
+
+        window.calcularTroco = function() {
+            const total = parseFloat(document.getElementById('totalVenda').innerText.replace(',', '.')) || 0;
+            const recebido = parseFloat(document.getElementById('valorRecebido').value) || 0;
+            const troco = recebido - total;
+            document.getElementById('trocoValor').innerText = formatarMoeda(troco > 0 ? troco : 0);
+        };
+
         window.finalizarVenda = async function() {
+            if (itensVenda.length === 0) {
+                showMessage('Adicione itens à venda', 'warning');
+                return;
+            }
             const vendedorId = usuarioLogado.tipo === 'admin' ? document.getElementById('vendedorVenda').value : usuarioLogado.userId;
             if (!vendedorId) {
-                showMessage('Selecione o vendedor!', 'warning');
+                showMessage('Selecione o vendedor', 'warning');
                 return;
             }
-            // Simulação de salvamento
-            showMessage('Venda finalizada com sucesso!', 'success');
+            if (!clienteVendaSelecionado) {
+                showMessage('Selecione um cliente', 'warning');
+                return;
+            }
+            const forma = document.getElementById('formaPagamento').value;
+            const total = itensVenda.reduce((acc, i) => acc + (i.preco * i.quantidade), 0);
+            const venda = {
+                clienteId: clienteVendaSelecionado.id,
+                clienteNome: clienteVendaSelecionado.nome,
+                vendedorId,
+                vendedorNome: usuarioLogado.displayName,
+                data: new Date(),
+                itens: itensVenda,
+                total,
+                formaPagamento: forma,
+                status: 'concluida'
+            };
+
+            if (forma === 'credito') {
+                const entrada = parseFloat(document.getElementById('entradaCredito').value) || 0;
+                const parcelas = parseInt(document.getElementById('parcelasCredito').value) || 1;
+                const saldo = total - entrada;
+                const valorParcela = saldo / parcelas;
+                await db.collection('credito').add({
+                    clienteId: clienteVendaSelecionado.id,
+                    clienteNome: clienteVendaSelecionado.nome,
+                    vendedorId,
+                    data: new Date(),
+                    total,
+                    entrada,
+                    parcelas,
+                    valorParcela,
+                    parcelasPagas: 0,
+                    saldo
+                });
+                showMessage('Venda parcelada registrada', 'success');
+            }
+
+            // Atualizar estoque
+            for (let item of itensVenda) {
+                const produtoRef = db.collection('produtos').doc(item.id);
+                await produtoRef.update({
+                    estoque: firebase.firestore.FieldValue.increment(-item.quantidade)
+                });
+            }
+
+            await db.collection('vendas').add(venda);
+            showMessage('Venda finalizada', 'success');
+            itensVenda = [];
+            renderizarItensVenda();
+            document.getElementById('clienteIdVenda').value = '';
+            clienteVendaSelecionado = null;
+            document.getElementById('listaClientesVenda').innerHTML = '';
         };
 
-        window.salvarCliente = function() { showMessage('Cliente salvo!', 'success'); };
-        window.salvarProduto = function() { showMessage('Produto salvo!', 'success'); };
-        window.salvarGasto = function() { showMessage('Gasto salvo!', 'success'); };
-        window.limparQuitados = function() { showMessage('Registros quitados removidos.', 'info'); };
-        window.buscarClientesVenda = function() {};
-        window.filtrarProdutosVenda = function() {};
-        window.toggleFormaPagamento = function() {};
-        window.calcularTroco = function() {};
-        window.filtrarClientes = function() {};
-        window.filtrarProdutos = function() {};
-        window.filtrarCreditos = function() {};
-        window.filtrarHistoricoVendas = function() {};
-        window.limparModalCliente = function() {};
-        window.limparModalProduto = function() {};
-        window.limparModalGasto = function() {};
-        window.abrirModalPerfil = function() { showMessage('Use a aba Admin.', 'info'); };
+        // ==================== CLIENTES NA VENDA ====================
+        window.buscarClientesVenda = async function() {
+            const busca = document.getElementById('buscaClienteVenda').value.toLowerCase();
+            if (busca.length < 2) return;
+            const snapshot = await db.collection('clientes').get();
+            const lista = document.getElementById('listaClientesVenda');
+            lista.innerHTML = '';
+            snapshot.forEach(doc => {
+                const c = doc.data();
+                if (c.nome.toLowerCase().includes(busca)) {
+                    const div = document.createElement('div');
+                    div.className = 'produto-item';
+                    div.innerHTML = c.nome;
+                    div.onclick = () => selecionarClienteVenda(doc.id, c.nome);
+                    lista.appendChild(div);
+                }
+            });
+            // Opção para cadastrar novo
+            const divNovo = document.createElement('div');
+            divNovo.className = 'produto-item text-primary';
+            divNovo.innerHTML = '+ CADASTRAR NOVO CLIENTE';
+            divNovo.onclick = () => document.getElementById('novoClienteVenda').style.display = 'block';
+            lista.appendChild(divNovo);
+        };
+
+        function selecionarClienteVenda(id, nome) {
+            clienteVendaSelecionado = { id, nome };
+            document.getElementById('clienteIdVenda').value = id;
+            document.getElementById('buscaClienteVenda').value = nome;
+            document.getElementById('listaClientesVenda').innerHTML = '';
+        }
+
+        // ==================== GASTOS ====================
+        window.limparModalGasto = function(tipo) {
+            document.getElementById('gastoId').value = '';
+            document.getElementById('gastoTipo').value = tipo;
+            document.getElementById('gastoData').value = new Date().toISOString().slice(0,10);
+            document.getElementById('gastoDescricao').value = '';
+            document.getElementById('gastoValor').value = '';
+            document.getElementById('modalGastoTitle').innerText = tipo === 'entrada' ? 'NOVA ENTRADA' : 'NOVA SAÍDA';
+        };
+
+        window.salvarGasto = async function() {
+            const id = document.getElementById('gastoId').value;
+            const dados = {
+                tipo: document.getElementById('gastoTipo').value,
+                data: new Date(document.getElementById('gastoData').value),
+                descricao: document.getElementById('gastoDescricao').value,
+                valor: parseFloat(document.getElementById('gastoValor').value) || 0
+            };
+            if (!dados.descricao || dados.valor <= 0) {
+                showMessage('Preencha descrição e valor', 'warning');
+                return;
+            }
+            if (id) {
+                await db.collection('gastos').doc(id).update(dados);
+                showMessage('Gasto atualizado', 'success');
+            } else {
+                await db.collection('gastos').add(dados);
+                showMessage('Gasto salvo', 'success');
+            }
+            bootstrap.Modal.getInstance(document.getElementById('modalGasto')).hide();
+            carregarGastos();
+        };
+
+        async function carregarGastos() {
+            const snapshot = await db.collection('gastos').orderBy('data', 'desc').get();
+            const entradas = [], saidas = [];
+            snapshot.forEach(doc => {
+                const g = doc.data();
+                if (g.tipo === 'entrada') entradas.push(g);
+                else saidas.push(g);
+            });
+            const listaEntradas = document.getElementById('listaEntradas');
+            const listaSaidas = document.getElementById('listaSaidas');
+            listaEntradas.innerHTML = '';
+            listaSaidas.innerHTML = '';
+            entradas.slice(0,5).forEach(g => {
+                listaEntradas.innerHTML += `<div class="d-flex justify-content-between"><span>${g.descricao}</span><span>R$ ${formatarMoeda(g.valor)}</span></div>`;
+            });
+            saidas.slice(0,5).forEach(g => {
+                listaSaidas.innerHTML += `<div class="d-flex justify-content-between"><span>${g.descricao}</span><span>R$ ${formatarMoeda(g.valor)}</span></div>`;
+            });
+        }
+
+        // ==================== CRÉDITO ====================
+        async function carregarCreditos() {
+            const snapshot = await db.collection('credito').get();
+            const tbody = document.querySelector('#tabelaCredito tbody');
+            tbody.innerHTML = '';
+            let totalCredito = 0;
+            let clientesDebito = 0;
+            snapshot.forEach(doc => {
+                const c = doc.data();
+                if (c.saldo > 0) {
+                    clientesDebito++;
+                    totalCredito += c.saldo;
+                }
+                const status = c.saldo > 0 ? '<span class="badge-pendente">PENDENTE</span>' : '<span class="badge-quitado">QUITADO</span>';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${c.clienteNome}</td>
+                    <td>R$ ${formatarMoeda(c.total)}</td>
+                    <td>R$ ${formatarMoeda(c.entrada)}</td>
+                    <td>${c.parcelas}</td>
+                    <td>R$ ${formatarMoeda(c.valorParcela)}</td>
+                    <td>${c.parcelasPagas}</td>
+                    <td>R$ ${formatarMoeda(c.saldo)}</td>
+                    <td>${status}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-warning" onclick="abrirNegociacao('${doc.id}', '${c.clienteNome}', ${c.saldo})"><i class="bi bi-cash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('totalCredito').innerText = formatarMoeda(totalCredito);
+            document.getElementById('totalClientesDebito').innerText = clientesDebito;
+        }
+
+        window.filtrarCreditos = function() {
+            const busca = document.getElementById('buscaCredito').value.toLowerCase();
+            const apenasPendentes = document.getElementById('filtroPendentes').checked;
+            const linhas = document.querySelectorAll('#tabelaCredito tbody tr');
+            linhas.forEach(linha => {
+                const cliente = linha.children[0].innerText.toLowerCase();
+                const status = linha.children[7].innerText;
+                const pendente = status.includes('PENDENTE');
+                if ((cliente.includes(busca) || busca === '') && (!apenasPendentes || pendente)) {
+                    linha.style.display = '';
+                } else {
+                    linha.style.display = 'none';
+                }
+            });
+        };
+
+        window.limparQuitados = async function() {
+            const snapshot = await db.collection('credito').where('saldo', '==', 0).get();
+            const batch = db.batch();
+            snapshot.forEach(doc => batch.delete(doc.ref));
+            await batch.commit();
+            showMessage('Registros quitados removidos', 'success');
+            carregarCreditos();
+        };
+
+        window.abrirNegociacao = function(id, cliente, saldo) {
+            document.getElementById('negociarCreditoId').value = id;
+            document.getElementById('negociarClienteNome').innerText = cliente;
+            document.getElementById('negociarSaldoAtual').innerText = formatarMoeda(saldo);
+            document.getElementById('negociarValorPago').value = '';
+            document.getElementById('negociarNovasParcelas').value = '';
+            new bootstrap.Modal(document.getElementById('modalNegociarCredito')).show();
+        };
+
+        window.confirmarNegociacao = async function() {
+            const id = document.getElementById('negociarCreditoId').value;
+            const valorPago = parseFloat(document.getElementById('negociarValorPago').value) || 0;
+            const novasParcelas = document.getElementById('negociarNovasParcelas').value;
+            const creditoRef = db.collection('credito').doc(id);
+            const doc = await creditoRef.get();
+            const c = doc.data();
+            const novoSaldo = c.saldo - valorPago;
+            const update = { saldo: novoSaldo, parcelasPagas: c.parcelasPagas + 1 };
+            if (novasParcelas) {
+                update.parcelas = parseInt(novasParcelas);
+                update.valorParcela = novoSaldo / parseInt(novasParcelas);
+            }
+            await creditoRef.update(update);
+            bootstrap.Modal.getInstance(document.getElementById('modalNegociarCredito')).hide();
+            showMessage('Negociação registrada', 'success');
+            carregarCreditos();
+        };
 
         // ==================== ADMIN: USUÁRIOS ====================
         async function carregarUsuarios() {
@@ -1167,7 +1609,198 @@
             showMessage('ACESSO CANCELADO.', 'warning');
         };
 
-        // ==================== LOGOUT ====================
+        // ==================== RELATÓRIOS (já implementados anteriormente) ====================
+        window.gerarRelatorio = async function() {
+            const tipo = document.getElementById('relTipo').value;
+            const inicio = document.getElementById('relInicio').value;
+            const fim = document.getElementById('relFim').value;
+            const vendedorId = usuarioLogado.tipo === 'admin' ? document.getElementById('relVendedor').value : usuarioLogado.userId;
+
+            let dataInicio = inicio ? new Date(inicio) : new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+            let dataFim = fim ? new Date(fim) : new Date();
+            dataFim.setHours(23, 59, 59, 999);
+
+            let query;
+            let html = '';
+
+            try {
+                if (tipo === 'historico') {
+                    query = db.collection('vendas')
+                        .where('data', '>=', dataInicio)
+                        .where('data', '<=', dataFim);
+                    if (vendedorId) {
+                        query = query.where('vendedorId', '==', vendedorId);
+                    }
+                    const snapshot = await query.get();
+                    if (snapshot.empty) {
+                        html = '<p class="msg-vazia">Nenhuma venda encontrada no período.</p>';
+                    } else {
+                        let tabela = '<table class="table table-sm"><thead><tr><th>Data</th><th>Cliente</th><th>Vendedor</th><th>Pagamento</th><th>Total</th></tr></thead><tbody>';
+                        snapshot.forEach(doc => {
+                            const v = doc.data();
+                            const data = v.data.toDate().toLocaleDateString();
+                            tabela += `<tr><td>${data}</td><td>${v.clienteNome}</td><td>${v.vendedorNome || v.vendedorId}</td><td>${v.formaPagamento}</td><td>R$ ${formatarMoeda(v.total)}</td></tr>`;
+                        });
+                        tabela += '</tbody></table>';
+                        html = tabela;
+                    }
+                } else if (tipo === 'estoque') {
+                    const snapshot = await db.collection('produtos').get();
+                    if (snapshot.empty) {
+                        html = '<p class="msg-vazia">Nenhum produto cadastrado.</p>';
+                    } else {
+                        let tabela = '<table class="table table-sm"><thead><tr><th>Produto</th><th>Custo</th><th>Preço</th><th>Estoque</th><th>Margem</th></tr></thead><tbody>';
+                        snapshot.forEach(doc => {
+                            const p = doc.data();
+                            const margem = ((p.preco - p.custo) / p.custo * 100).toFixed(2);
+                            tabela += `<tr><td>${p.nome}</td><td>R$ ${formatarMoeda(p.custo)}</td><td>R$ ${formatarMoeda(p.preco)}</td><td>${p.estoque}</td><td>${margem}%</td></tr>`;
+                        });
+                        tabela += '</tbody></table>';
+                        html = tabela;
+                    }
+                } else if (tipo === 'entradas' || tipo === 'saidas') {
+                    query = db.collection('gastos')
+                        .where('tipo', '==', tipo === 'entradas' ? 'entrada' : 'saida')
+                        .where('data', '>=', dataInicio)
+                        .where('data', '<=', dataFim);
+                    const snapshot = await query.get();
+                    if (snapshot.empty) {
+                        html = `<p class="msg-vazia">Nenhum registro de ${tipo} encontrado.</p>`;
+                    } else {
+                        let total = 0;
+                        let tabela = '<table class="table table-sm"><thead><tr><th>Data</th><th>Descrição</th><th>Valor</th></tr></thead><tbody>';
+                        snapshot.forEach(doc => {
+                            const g = doc.data();
+                            total += g.valor;
+                            const data = g.data.toDate().toLocaleDateString();
+                            tabela += `<tr><td>${data}</td><td>${g.descricao}</td><td>R$ ${formatarMoeda(g.valor)}</td></tr>`;
+                        });
+                        tabela += `<tr><td colspan="2"><strong>TOTAL</strong></td><td><strong>R$ ${formatarMoeda(total)}</strong></td></tr>`;
+                        tabela += '</tbody></table>';
+                        html = tabela;
+                    }
+                } else if (tipo === 'credito') {
+                    query = db.collection('credito')
+                        .where('saldo', '>', 0);
+                    const snapshot = await query.get();
+                    if (snapshot.empty) {
+                        html = '<p class="msg-vazia">Nenhum crédito pendente.</p>';
+                    } else {
+                        let tabela = '<table class="table table-sm"><thead><tr><th>Cliente</th><th>Total</th><th>Entrada</th><th>Parcelas</th><th>Parcelas Pagas</th><th>Saldo</th></tr></thead><tbody>';
+                        snapshot.forEach(doc => {
+                            const c = doc.data();
+                            tabela += `<tr><td>${c.clienteNome}</td><td>R$ ${formatarMoeda(c.total)}</td><td>R$ ${formatarMoeda(c.entrada)}</td><td>${c.parcelas}</td><td>${c.parcelasPagas}</td><td>R$ ${formatarMoeda(c.saldo)}</td></tr>`;
+                        });
+                        tabela += '</tbody></table>';
+                        html = tabela;
+                    }
+                }
+                document.getElementById('relatorioResultado').innerHTML = html;
+                showMessage('Relatório gerado com sucesso!', 'success');
+            } catch (error) {
+                showMessage('Erro ao gerar relatório: ' + error.message, 'error');
+            }
+        };
+
+        window.exportarPDF = function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.text('Relatório', 10, 10);
+            const tabela = document.querySelector('#relatorioResultado table');
+            if (!tabela) {
+                showMessage('Nenhum dado para exportar.', 'warning');
+                return;
+            }
+            doc.autoTable({ html: tabela });
+            doc.save('relatorio.pdf');
+            showMessage('PDF gerado.', 'success');
+        };
+
+        window.exportarExcel = function() {
+            const tabela = document.querySelector('#relatorioResultado table');
+            if (!tabela) {
+                showMessage('Nenhum dado para exportar.', 'warning');
+                return;
+            }
+            const wb = XLSX.utils.table_to_book(tabela, { sheet: "Relatório" });
+            XLSX.writeFile(wb, "relatorio.xlsx");
+            showMessage('Excel gerado.', 'success');
+        };
+
+        window.fecharMes = function() {
+            showMessage('Mês fechado com sucesso! (simulação)', 'success');
+        };
+
+        // ==================== HISTÓRICO DE VENDAS ====================
+        async function carregarHistoricoVendas() {
+            const snapshot = await db.collection('vendas').orderBy('data', 'desc').get();
+            const tbody = document.querySelector('#tabelaHistoricoVendas tbody');
+            tbody.innerHTML = '';
+            snapshot.forEach(doc => {
+                const v = doc.data();
+                const data = v.data.toDate().toLocaleDateString();
+                const hora = v.data.toDate().toLocaleTimeString();
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${data}</td>
+                    <td>${hora}</td>
+                    <td>${v.clienteNome}</td>
+                    <td>${v.vendedorNome || v.vendedorId}</td>
+                    <td>${v.formaPagamento}</td>
+                    <td>R$ ${formatarMoeda(v.total)}</td>
+                    <td>${v.itens.length} itens</td>
+                    <td><button class="btn btn-sm btn-outline-info" onclick="verDetalhesVenda('${doc.id}')"><i class="bi bi-eye"></i></button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.filtrarHistoricoVendas = function() {
+            const busca = document.getElementById('buscaHistorico').value.toLowerCase();
+            const vendedorFiltro = document.getElementById('filtroVendedorHistorico').value;
+            const linhas = document.querySelectorAll('#tabelaHistoricoVendas tbody tr');
+            linhas.forEach(linha => {
+                const cliente = linha.children[2].innerText.toLowerCase();
+                const vendedor = linha.children[3].innerText;
+                if (cliente.includes(busca) && (!vendedorFiltro || vendedor.includes(vendedorFiltro))) {
+                    linha.style.display = '';
+                } else {
+                    linha.style.display = 'none';
+                }
+            });
+        };
+
+        window.verDetalhesVenda = async function(id) {
+            const doc = await db.collection('vendas').doc(id).get();
+            const v = doc.data();
+            let html = `<p><strong>Cliente:</strong> ${v.clienteNome}</p>`;
+            html += `<p><strong>Data:</strong> ${v.data.toDate().toLocaleString()}</p>`;
+            html += `<p><strong>Vendedor:</strong> ${v.vendedorNome || v.vendedorId}</p>`;
+            html += `<p><strong>Forma de pagamento:</strong> ${v.formaPagamento}</p>`;
+            html += `<p><strong>Total:</strong> R$ ${formatarMoeda(v.total)}</p>`;
+            html += '<h6>Itens:</h6><ul>';
+            v.itens.forEach(item => {
+                html += `<li>${item.nome} - ${item.quantidade}x R$ ${formatarMoeda(item.preco)} = R$ ${formatarMoeda(item.preco * item.quantidade)}</li>`;
+            });
+            html += '</ul>';
+            document.getElementById('comprovanteBody').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('modalComprovante')).show();
+        };
+
+        window.imprimirComprovante = function() {
+            const conteudo = document.getElementById('comprovanteBody').innerHTML;
+            const janela = window.open('', '_blank');
+            janela.document.write('<html><head><title>Comprovante</title></head><body>' + conteudo + '</body></html>');
+            janela.print();
+        };
+
+        // ==================== DASHBOARD (ESBOÇO) ====================
+        async function atualizarDashboard() {
+            // Implementar lógica para buscar dados do mês e atualizar gráficos
+            // (simplificado por enquanto)
+        }
+
+        // ==================== INICIALIZAÇÃO ====================
         window.logout = function() {
             document.getElementById('mainSystem').style.display = 'none';
             document.getElementById('loginContainer').style.display = 'block';
@@ -1177,21 +1810,33 @@
             usuarioLogado = { tipo: null };
         };
 
-        // ==================== REFRESH ====================
         window.refreshDados = async function() {
             await atualizarExpiracao();
             aplicarBloqueio();
+            await carregarClientes();
+            await carregarProdutos();
+            await carregarCreditos();
+            await carregarGastos();
+            await carregarHistoricoVendas();
             showMessage('Dados atualizados.', 'info');
         };
 
-        // ==================== INICIALIZAÇÃO ====================
         async function iniciarSistema() {
             await carregarUsuarios();
             if (usuarioLogado.tipo === 'admin') {
                 await carregarVendedores();
             }
-            // Atualizar dashboard, etc.
+            await carregarClientes();
+            await carregarProdutos();
+            await carregarCreditos();
+            await carregarGastos();
+            await carregarHistoricoVendas();
+            await atualizarDashboard();
         }
+
+        window.abrirModalPerfil = function() {
+            showMessage('Use a aba Admin para gerenciar usuários.', 'info');
+        };
     </script>
 </body>
 </html>
