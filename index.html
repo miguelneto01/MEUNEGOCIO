@@ -259,7 +259,6 @@
             border-left: 6px solid var(--primary);
             box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
-        /* Ajustes para mobile */
         @media (max-width: 768px) {
             .nav-tabs .nav-link {
                 padding: 8px 12px;
@@ -354,7 +353,7 @@
                 </ul>
 
                 <div class="tab-content p-4 glass-card mt-3" id="myTabContent">
-                    <!-- Aba Venda (sem seletor de vendedor) -->
+                    <!-- Aba Venda -->
                     <div class="tab-pane fade show active" id="venda">
                         <h4 class="mb-4" style="color: var(--primary);">NOVA VENDA</h4>
                         <div class="row g-4">
@@ -423,7 +422,7 @@
                         </div>
                     </div>
 
-                    <!-- Aba Clientes (igual anterior) -->
+                    <!-- Aba Clientes -->
                     <div class="tab-pane fade" id="clientes">
                         <h4 class="mb-4" style="color: var(--primary);">CLIENTES</h4>
                         <div class="d-flex justify-content-between mb-4">
@@ -488,13 +487,13 @@
                         </div>
                     </div>
 
-                    <!-- Aba Gastos -->
+                    <!-- Aba Gastos (agora inclui pagamentos de crédito) -->
                     <div class="tab-pane fade" id="gastos">
                         <h4 class="mb-4" style="color: var(--primary);">GASTOS</h4>
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <div class="card p-4 border-0 shadow-sm">
-                                    <h5 class="text-success mb-3"><i class="bi bi-arrow-down-circle me-2"></i>ENTRADAS</h5>
+                                    <h5 class="text-success mb-3"><i class="bi bi-arrow-down-circle me-2"></i>ENTRADAS (inclui pagamentos de crédito)</h5>
                                     <button class="btn btn-outline-success rounded-pill mb-3 w-100" data-bs-toggle="modal" data-bs-target="#modalGasto" onclick="limparModalGasto('entrada')"><i class="bi bi-plus me-2"></i>NOVA ENTRADA</button>
                                     <div id="listaEntradas"></div>
                                 </div>
@@ -526,7 +525,7 @@
                         </div>
                     </div>
 
-                    <!-- Aba Relatórios -->
+                    <!-- Aba Relatórios (corrigida) -->
                     <div class="tab-pane fade" id="relatorios">
                         <h4 class="mb-4" style="color: var(--primary);">RELATÓRIOS</h4>
                         <div class="row g-3">
@@ -569,7 +568,7 @@
                         <div id="relatorioResultado" class="mt-3"></div>
                     </div>
 
-                    <!-- Aba Dashboard (sem gráficos) -->
+                    <!-- Aba Dashboard -->
                     <div class="tab-pane fade" id="dashboard">
                         <h4 class="mb-4" style="color: var(--primary);">DASHBOARD</h4>
                         <div class="row g-4">
@@ -653,7 +652,7 @@
         </footer>
     </div>
 
-    <!-- MODAIS (mantidos iguais) -->
+    <!-- MODAIS -->
     <div class="modal fade" id="modalCliente" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content rounded-4">
@@ -1567,6 +1566,7 @@
             new bootstrap.Modal(document.getElementById('modalNegociarCredito')).show();
         };
 
+        // ==================== NEGOCIAÇÃO DE CRÉDITO (AGORA REGISTRA ENTRADA) ====================
         window.confirmarNegociacao = async function() {
             const id = document.getElementById('negociarCreditoId').value;
             const valorPago = parseFloat(document.getElementById('negociarValorPago').value) || 0;
@@ -1581,9 +1581,21 @@
                 update.valorParcela = novoSaldo / parseInt(novasParcelas);
             }
             await creditoRef.update(update);
+
+            // Registrar o pagamento como uma entrada na aba Gastos
+            if (valorPago > 0) {
+                await db.collection('gastos').add({
+                    tipo: 'entrada',
+                    data: new Date(),
+                    descricao: `Pagamento de crédito - ${c.clienteNome}`,
+                    valor: valorPago
+                });
+            }
+
             bootstrap.Modal.getInstance(document.getElementById('modalNegociarCredito')).hide();
-            showMessage('Negociação registrada', 'success');
+            showMessage('Negociação registrada e entrada lançada!', 'success');
             carregarCreditos();
+            carregarGastos(); // atualiza a lista de gastos
         };
 
         // ==================== HISTÓRICO DE VENDAS ====================
@@ -1642,7 +1654,7 @@
             new bootstrap.Modal(document.getElementById('modalComprovante')).show();
         };
 
-        // ==================== DASHBOARD (SEM GRÁFICOS) ====================
+        // ==================== DASHBOARD ====================
         async function atualizarDashboard() {
             const inicioMes = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
             const fimMes = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59);
@@ -1661,13 +1673,11 @@
                 const v = doc.data();
                 totalVendas += v.total;
                 for (let item of v.itens) {
-                    // Buscar custo do produto (pode otimizar com cache)
                     const prodDoc = await db.collection('produtos').doc(item.id).get();
                     if (prodDoc.exists) {
                         const custoUnit = prodDoc.data().custo;
                         totalCusto += custoUnit * item.quantidade;
                     }
-                    // Ranking de produtos
                     if (!produtosCount[item.nome]) produtosCount[item.nome] = 0;
                     produtosCount[item.nome] += item.quantidade;
                 }
@@ -1677,7 +1687,7 @@
             document.getElementById('totalCustoMes').innerText = formatarMoeda(totalCusto);
             document.getElementById('totalLucroMes').innerText = formatarMoeda(totalVendas - totalCusto);
 
-            // Estoque total (soma)
+            // Estoque total
             const produtosSnap = await db.collection('produtos').get();
             let totalEstoque = 0;
             produtosSnap.forEach(doc => totalEstoque += doc.data().estoque);
@@ -1709,7 +1719,7 @@
             }
         }
 
-        // ==================== RELATÓRIOS ====================
+        // ==================== RELATÓRIOS (CORRIGIDO) ====================
         window.gerarRelatorio = async function() {
             const tipo = document.getElementById('relTipo').value;
             const inicio = document.getElementById('relInicio').value;
@@ -1720,14 +1730,18 @@
             let dataFim = fim ? new Date(fim) : new Date();
             dataFim.setHours(23, 59, 59, 999);
 
+            // Converter para Timestamp do Firestore
+            const inicioTimestamp = firebase.firestore.Timestamp.fromDate(dataInicio);
+            const fimTimestamp = firebase.firestore.Timestamp.fromDate(dataFim);
+
             let query;
             let html = '';
 
             try {
                 if (tipo === 'historico') {
                     query = db.collection('vendas')
-                        .where('data', '>=', dataInicio)
-                        .where('data', '<=', dataFim);
+                        .where('data', '>=', inicioTimestamp)
+                        .where('data', '<=', fimTimestamp);
                     if (vendedorId) {
                         query = query.where('vendedorId', '==', vendedorId);
                     }
@@ -1759,10 +1773,11 @@
                         html = tabela;
                     }
                 } else if (tipo === 'entradas' || tipo === 'saidas') {
+                    const tipoGasto = tipo === 'entradas' ? 'entrada' : 'saida';
                     query = db.collection('gastos')
-                        .where('tipo', '==', tipo === 'entradas' ? 'entrada' : 'saida')
-                        .where('data', '>=', dataInicio)
-                        .where('data', '<=', dataFim);
+                        .where('tipo', '==', tipoGasto)
+                        .where('data', '>=', inicioTimestamp)
+                        .where('data', '<=', fimTimestamp);
                     const snapshot = await query.get();
                     if (snapshot.empty) {
                         html = `<p class="msg-vazia">Nenhum registro de ${tipo} encontrado.</p>`;
@@ -1833,9 +1848,12 @@
             const fim = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59);
             const mesAno = inicio.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 
+            const inicioTimestamp = firebase.firestore.Timestamp.fromDate(inicio);
+            const fimTimestamp = firebase.firestore.Timestamp.fromDate(fim);
+
             // Buscar dados
-            const vendasSnap = await db.collection('vendas').where('data', '>=', inicio).where('data', '<=', fim).get();
-            const gastosSnap = await db.collection('gastos').where('data', '>=', inicio).where('data', '<=', fim).get();
+            const vendasSnap = await db.collection('vendas').where('data', '>=', inicioTimestamp).where('data', '<=', fimTimestamp).get();
+            const gastosSnap = await db.collection('gastos').where('data', '>=', inicioTimestamp).where('data', '<=', fimTimestamp).get();
             const creditosSnap = await db.collection('credito').get(); // todos, mas podemos filtrar os do mês? Vamos considerar pendentes totais
 
             // Totais
@@ -1852,7 +1870,6 @@
                 vendasDetalhe.push(v);
                 for (let item of v.itens) {
                     produtosVendidos[item.nome] = (produtosVendidos[item.nome] || 0) + item.quantidade;
-                    // Calcular custo aproximado (usar último custo do produto)
                     const prodDoc = await db.collection('produtos').doc(item.id).get();
                     if (prodDoc.exists) {
                         totalCusto += prodDoc.data().custo * item.quantidade;
@@ -1939,14 +1956,6 @@
 
             doc.save(`fechamento_${mesAno.replace(/ /g,'_')}.pdf`);
             showMessage('PDF de fechamento gerado!', 'success');
-
-            // Opcional: limpar dados antigos (ex: vendas com mais de 60 dias) - descomente se quiser
-            // const dataLimite = new Date();
-            // dataLimite.setDate(dataLimite.getDate() - 60);
-            // const vendasAntigas = await db.collection('vendas').where('data', '<', dataLimite).get();
-            // const batch = db.batch();
-            // vendasAntigas.forEach(doc => batch.delete(doc.ref));
-            // await batch.commit();
         };
 
         // ==================== ADMIN: USUÁRIOS ====================
